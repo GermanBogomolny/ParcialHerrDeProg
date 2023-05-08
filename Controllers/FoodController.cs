@@ -26,7 +26,9 @@ namespace Stix.Controllers
             var query = from food in _context.Food select food;
             if (!string.IsNullOrEmpty(NameFilter))
             {
-                query = query.Where(x => x.NameFood.Contains(NameFilter));
+                query = query.Where(x => x.NameFood.Contains(NameFilter) ||
+                x.DescriptionFood.Contains(NameFilter) ||
+                x.Price.ToString().Contains(NameFilter));
             }
 
             var model = new FoodViewmodel();
@@ -68,7 +70,7 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NameFood,DescriptionFood,IsVeganFood,IsVegetarianFood,Price,FoodTypeId")] Food food)
         {
-            
+            ModelState.Remove("Restaurant");
             if (ModelState.IsValid)
             {
             _context.Add(food);

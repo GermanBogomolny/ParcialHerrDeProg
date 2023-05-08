@@ -42,10 +42,19 @@
                 <input asp-for="Provincia" class="form-control" />
                 <span asp-validation-for="Provincia" class="text-danger"></span>
             </div>
-           <br>
+            <div class="form-group">
+                <label asp-for="MenuTypeId" class="control-label"></label>
+                <select asp-for="MenuTypeId" class="form-control">
+                    <option>Seleccione la categoría</option>
+                    <option value="0">Sushi</option>
+                    <option value="1">Vegano</option>
+                    <option value="2">Vegetariano</option>
+                </select>
+            </div>
+            <br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+                </div>
         </form>
     </div>
 </div>
@@ -55,5 +64,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

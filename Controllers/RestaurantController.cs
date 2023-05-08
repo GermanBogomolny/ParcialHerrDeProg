@@ -25,18 +25,21 @@ namespace Stix.Controllers
                 public async Task<IActionResult> Index(string NameFilter)
         {
             var query = from restaurant in _context.Restaurant select restaurant;
-            
             if (!string.IsNullOrEmpty(NameFilter))
             {
-                query = query.Where(x => x.RestaurantName.Contains(NameFilter));
+                query = query.Where(x => x.RestaurantName.ToLower().Contains(NameFilter.ToLower()) ||
+                x.Street.ToLower().Contains(NameFilter.ToLower()) ||
+                x.Neighbourhood.ToLower().Contains(NameFilter.ToLower()) ||
+                x.Town.ToLower().Contains(NameFilter.ToLower()) ||
+                x.Provincia.ToLower().Contains(NameFilter.ToLower()));
             }
 
             var model = new RestaurantViewmodel();
             model.Restaurants = await query.ToListAsync();
 
-              return _context.Restaurant != null ? 
-                          View(model) :
-                          Problem("Entity set 'FoodContext.Restaurant'  is null.");
+            return _context.Restaurant != null ?
+                        View(model) :
+                        Problem("Entity set 'FoodContext.Food'  is null.");
         }
 
         // GET: Restaurant/Details/5
@@ -68,11 +71,16 @@ namespace Stix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RestaurantName,Street,Number,Neighbourhood,Town,Provincia")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("Id,RestaurantName,Street,Number,Neighbourhood,Town,Provincia,MenuTypeId")] Restaurant restaurant)
         {
+            ModelState.Remove("Food");
+            if (ModelState.IsValid)
+            {
             _context.Add(restaurant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+            }
+            return View(restaurant);
         }
 
         // GET: Restaurant/Edit/5
@@ -96,7 +104,7 @@ namespace Stix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RestaurantName,Street,Number,Neighbourhood,Town,Provincia")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RestaurantName,Street,Number,Neighbourhood,Town,Provincia,MenuTypeId")] Restaurant restaurant)
         {
             if (id != restaurant.Id)
             {

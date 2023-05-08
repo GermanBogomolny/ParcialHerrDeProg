@@ -10,29 +10,14 @@ using Stix.Data;
 namespace Stix.Migrations
 {
     [DbContext(typeof(FoodContext))]
-    [Migration("20230502232154_initial migration")]
-    partial class initialmigration
+    [Migration("20230508073110_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
-
-            modelBuilder.Entity("RestaurantFood", b =>
-                {
-                    b.Property<int>("FoodsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RestaurantsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FoodsId", "RestaurantsId");
-
-                    b.HasIndex("RestaurantsId");
-
-                    b.ToTable("RestaurantFood");
-                });
 
             modelBuilder.Entity("Stix.Models.Food", b =>
                 {
@@ -43,6 +28,9 @@ namespace Stix.Migrations
                     b.Property<string>("DescriptionFood")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("FoodTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsVeganFood")
                         .HasColumnType("INTEGER");
@@ -57,18 +45,33 @@ namespace Stix.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("Stix.Models.FoodRestaurant", b =>
+                {
+                    b.Property<int>("FoodId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FoodId", "RestaurantId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("FoodRestaurant");
                 });
 
             modelBuilder.Entity("Stix.Models.Restaurant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MenuTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Neighbourhood")
@@ -99,17 +102,17 @@ namespace Stix.Migrations
                     b.ToTable("Restaurant");
                 });
 
-            modelBuilder.Entity("RestaurantFood", b =>
+            modelBuilder.Entity("Stix.Models.FoodRestaurant", b =>
                 {
                     b.HasOne("Stix.Models.Food", null)
                         .WithMany()
-                        .HasForeignKey("FoodsId")
+                        .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Stix.Models.Restaurant", null)
                         .WithMany()
-                        .HasForeignKey("RestaurantsId")
+                        .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

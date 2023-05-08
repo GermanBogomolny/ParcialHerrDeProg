@@ -5,7 +5,7 @@
 namespace Stix.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Stix.Migrations
                     IsVeganFood = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsVegetarianFood = table.Column<bool>(type: "INTEGER", nullable: false),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
-                    Type = table.Column<int>(type: "INTEGER", nullable: false)
+                    FoodTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,8 @@ namespace Stix.Migrations
                     Number = table.Column<int>(type: "INTEGER", nullable: false),
                     Neighbourhood = table.Column<string>(type: "TEXT", nullable: false),
                     Town = table.Column<string>(type: "TEXT", nullable: false),
-                    Provincia = table.Column<string>(type: "TEXT", nullable: false)
+                    Provincia = table.Column<string>(type: "TEXT", nullable: false),
+                    MenuTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,40 +48,40 @@ namespace Stix.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RestaurantFood",
+                name: "FoodRestaurant",
                 columns: table => new
                 {
-                    FoodsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RestaurantsId = table.Column<int>(type: "INTEGER", nullable: false)
+                    FoodId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RestaurantId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RestaurantFood", x => new { x.FoodsId, x.RestaurantsId });
+                    table.PrimaryKey("PK_FoodRestaurant", x => new { x.FoodId, x.RestaurantId });
                     table.ForeignKey(
-                        name: "FK_RestaurantFood_Food_FoodsId",
-                        column: x => x.FoodsId,
+                        name: "FK_FoodRestaurant_Food_FoodId",
+                        column: x => x.FoodId,
                         principalTable: "Food",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RestaurantFood_Restaurant_RestaurantsId",
-                        column: x => x.RestaurantsId,
+                        name: "FK_FoodRestaurant_Restaurant_RestaurantId",
+                        column: x => x.RestaurantId,
                         principalTable: "Restaurant",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RestaurantFood_RestaurantsId",
-                table: "RestaurantFood",
-                column: "RestaurantsId");
+                name: "IX_FoodRestaurant_RestaurantId",
+                table: "FoodRestaurant",
+                column: "RestaurantId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RestaurantFood");
+                name: "FoodRestaurant");
 
             migrationBuilder.DropTable(
                 name: "Food");

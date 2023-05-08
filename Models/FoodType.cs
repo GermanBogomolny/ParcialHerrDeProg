@@ -5,10 +5,10 @@ namespace Stix.Models;
 
 public class FoodType
 {
-    public int FoodsId;
-    public int RestaurantsId;
+    public int FoodId;
+    public int RestaurantId;
 
-    public List<Restaurant> Restaurants;
-    public List<Food> Foods;
+    public List<Restaurant> Restaurant;
+    public List<Food> Food;
 
 }
