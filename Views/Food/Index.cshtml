@@ -1,0 +1,74 @@
+@using Viewmodels;
+@model FoodViewmodel;
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Lista de platos</h1><br>
+<div>
+        <a class="btn btn-primary" asp-action="Create" role="button">Cargar un plato nuevo</a>
+</div><br>
+<div class="row">
+    <form method="get" asp-action="Index" asp-controller="Food">
+        <div class="col-6 form-group">
+            <input class="form control" asp-for="NameFilter"/>
+        </div>
+        <button class="btn" type="submit">Buscar platos</button>
+    </form>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].NameFood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].DescriptionFood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].IsVeganFood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].IsVegetarianFood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foods[0].FoodTypeId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Foods)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameFood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionFood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVeganFood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVegetarianFood)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodTypeId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalle</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
