@@ -1,4 +1,4 @@
-@model Stix.Models.Restaurant
+@model Stix.ViewModels.RestaurantCreateViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Restaurant.Id" />
             <div class="form-group">
                 <label asp-for="RestaurantName" class="control-label"></label>
                 <input asp-for="RestaurantName" class="form-control" />
@@ -45,13 +45,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="MenuTypeId" class="control-label"></label>
-                <select asp-for="MenuTypeId" class="form-control">
-                    <option>Seleccione la categoría</option>
-                    <option value="0">Sushi</option>
-                    <option value="1">Vegano</option>
-                    <option value="2">Vegetariano</option>
+                <select asp-for="MenuTypeId" asp-items="@Model.MenuTypes" class="form-control">
+                    <option value="">Seleccione la categoría</option>
                 </select>
-            </div><br>
+                <span asp-validation-for="MenuTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedFoodIds" class="control-label">Platos de Comida</label>
+                <select asp-for="SelectedFoodIds" asp-items="@Model.AvailableFoods" class="form-control" multiple>
+                </select>
+                <span asp-validation-for="SelectedFoodIds" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -64,7 +68,26 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+        $(function() {
+            $('#MenuTypeId').on('change', function() {
+                var menuTypeId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetAvailableFoods", "Restaurant")',
+                    type: 'GET',
+                    data: { menuTypeId: menuTypeId },
+                    success: function(data) {
+                        var options = '';
+                        $.each(data, function(i, item) {
+                            options += '<option value="' + item.value + '">' + item.text + '</option>';
+                        });
+                        $('#SelectedFoodIds').html(options);
+                    },
+                    error: function() {
+                        alert('Error al cargar los platos de comida.');
+                    }
+                });
+            });
+        });
+    </script>
 }

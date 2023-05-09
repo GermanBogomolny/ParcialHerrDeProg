@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SIdUnmGeTOL4vE4FpESTmoqVYUjhXikZXpZJ/BzDj5Y1Ugokj1XemfjLD6sbwJNlw9zf/7iF4BSaYSfObhCWCg==",
+  "dgSpecHash": "K4XkOMxHfG3GV0QsUO/R9X55HeQ5FBhrdE8FB5r5Qw+FSrOfDJrHgOWbliZfwWyRC2HVZestCIU6MEzv8fugTg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\morka\\OneDrive\\Escritorio\\PARCIAL1BOGOMOLNY\\Stix\\Stix.csproj",
+  "projectFilePath": "C:\\Users\\morka\\OneDrive\\Escritorio\\PARCIAL HDPROG\\Stix.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\morka\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\morka\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",

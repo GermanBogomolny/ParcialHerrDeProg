@@ -1,17 +1,17 @@
 @using Viewmodels;
-@model RestaurantViewmodel;
+@model RestaurantViewModel;
 
 @{
     ViewData["Title"] = "Index";
 }
 <h1>Lista de restaurantes</h1><br>
 <div>
-        <a class="btn btn-primary" asp-action="Create" role="button">Cargar un restaurant nuevo</a>
+    <a class="btn btn-primary" asp-action="Create" role="button">Cargar un restaurant nuevo</a>
 </div><br>
 <div class="row">
     <form method="get" asp-action="Index" asp-controller="Restaurant">
         <div class="col-6 form-group">
-            <input class="form control" asp-for="NameFilter"/>
+            <input class="form control" asp-for="NameFilter" />
         </div>
         <button class="btn" type="submit">Buscar platos</button>
     </form>
@@ -38,13 +38,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Restaurants[0].Provincia)
             </th>
-                        <th>
+            <th>
                 @Html.DisplayNameFor(model => model.Restaurants[0].MenuTypeId)
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Restaurants)
+
         {
             <tr>
                 <td>
@@ -65,7 +66,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Provincia)
                 </td>
-                               <td>
+                <td>
                     @Html.DisplayFor(modelItem => item.MenuTypeId)
                 </td>
                 <td>

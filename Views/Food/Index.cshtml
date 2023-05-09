@@ -1,17 +1,17 @@
 @using Viewmodels;
-@model FoodViewmodel;
+@model FoodViewModel;
 
 @{
     ViewData["Title"] = "Index";
 }
 <h1>Lista de platos</h1><br>
 <div>
-        <a class="btn btn-primary" asp-action="Create" role="button">Cargar un plato nuevo</a>
+    <a class="btn btn-primary" asp-action="Create" role="button">Cargar un plato nuevo</a>
 </div><br>
 <div class="row">
     <form method="get" asp-action="Index" asp-controller="Food">
         <div class="col-6 form-group">
-            <input class="form control" asp-for="NameFilter"/>
+            <input class="form control" asp-for="NameFilter" />
         </div>
         <button class="btn" type="submit">Buscar platos</button>
     </form>
@@ -27,12 +27,6 @@
                 @Html.DisplayNameFor(model => model.Foods[0].DescriptionFood)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Foods[0].IsVeganFood)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Foods[0].IsVegetarianFood)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Foods[0].Price)
             </th>
             <th>
@@ -43,6 +37,7 @@
     </thead>
     <tbody>
         @foreach (var item in Model.Foods)
+
         {
             <tr>
                 <td>
@@ -50,12 +45,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DescriptionFood)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsVeganFood)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsVegetarianFood)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)

@@ -5,7 +5,6 @@ namespace Stix.Models;
 
 public class Restaurant
 {
-    
     public int Id { get; set; }
 
     [Required]
@@ -31,6 +30,8 @@ public class Restaurant
     public string Provincia { get; set; }
 
     [Display(Name = "Menú del restaurant")]
-    public FoodId MenuTypeId {get;set;}
-    public virtual List<Food> Food { get; set; }
+    public MenuTypeEnum MenuTypeId { get; set; }
+
+   public virtual List<FoodRestaurant> Foods { get; set; }
+
 }

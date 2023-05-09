@@ -1,4 +1,4 @@
-@model Stix.Models.Restaurant
+@model Stix.ViewModels.RestaurantDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -6,50 +6,63 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Restaurant</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestaurantName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestaurantName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Number)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Neighbourhood)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Neighbourhood)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Town)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Town)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Provincia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Provincia)
-        </dd>
-      
-    </dl>
+<h4>Restaurant</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Restaurant.Id" />
+
+            <div class="form-group">
+                <label asp-for="RestaurantName" class="control-label"></label>
+                <input asp-for="RestaurantName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Street" class="control-label"></label>
+                <input asp-for="Street" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Number" class="control-label"></label>
+                <input asp-for="Number" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Neighbourhood" class="control-label"></label>
+                <input asp-for="Neighbourhood" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Town" class="control-label"></label>
+                <input asp-for="Town" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Provincia" class="control-label"></label>
+                <input asp-for="Provincia" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MenuTypeId" class="control-label">Categoría de menú</label>
+                <select asp-for="MenuTypeId" asp-items="@Model.MenuTypes" class="form-control" disabled>
+                    <option value="">Seleccione la categoría</option>
+                </select>
+                <span asp-validation-for="MenuTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Foods" class="control-label">Platos de Comida</label>
+                <select asp-for="Foods" asp-items="@Model.AllFoods" class="form-control" multiple disabled>
+                </select>
+                <span asp-validation-for="Foods" class="text-danger"></span>
+            </div>
+        </form>
+    </div>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

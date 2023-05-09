@@ -9,31 +9,28 @@ namespace Stix.Data
 {
     public class FoodContext : DbContext
     {
-        public FoodContext (DbContextOptions<FoodContext> options)
-            : base(options)
+        public FoodContext(DbContextOptions<FoodContext> options) : base(options)
         {
         }
 
-        public DbSet<Stix.Models.Food> Food { get; set; } = default!;
-        public DbSet<Stix.Models.Restaurant> Restaurant { get; set; } = default!;
-        public DbSet<Stix.Models.FoodRestaurant> FoodRestaurant { get; set; } = default!;
+        public DbSet<Food> Foods { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<FoodRestaurant> FoodRestaurants { get; set; }
 
-        protected override void OnModelCreating (ModelBuilder modelbuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelbuilder.Entity<Food>()
-            .HasMany(p => p.Restaurant)
-            .WithMany(g => g.Food)
-            .UsingEntity<FoodRestaurant>(
-                /*pg => pg.HasOne(prop => prop.Restaurant)
-                .WithMany()
-                .HasForeignKey(prop => prop.RestaurantId),
-                pg => pg.HasOne(prop => prop.Food)
-                .WithMany()
-                .HasForeignKey(prop => prop.FoodId),
-                pg => {
-                    pg.HasKey(prop => new {prop.FoodId, prop.RestaurantId,prop.FoodTypeId});
-                }*/
-                );
+            modelBuilder.Entity<FoodRestaurant>()
+                .HasKey(f => new { f.FoodId, f.RestaurantId });
+
+            modelBuilder.Entity<FoodRestaurant>()
+                .HasOne(f => f.Food)
+                .WithMany(f => f.Restaurants)
+                .HasForeignKey(f => f.FoodId);
+
+            modelBuilder.Entity<FoodRestaurant>()
+                .HasOne(f => f.Restaurant)
+                .WithMany(r => r.Foods)
+                .HasForeignKey(f => f.RestaurantId);
         }
     }
 }

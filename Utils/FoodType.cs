@@ -1,8 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 namespace Stix.Utils;
 
 public enum FoodTypeEnum
 {
-    Starter,
+    [Display(Name = "Sushi")]
     Sushi,
-    Dessert
+    [Display(Name = "Vegano")]
+    Vegan,
+    [Display(Name = "Vegetariano")]
+    Vegetarian
 }
