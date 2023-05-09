@@ -41,7 +41,7 @@ public class RestaurantDetailsViewModel
 
         public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AllFoods { get; set; }
 
-         public string MenuType { get; set; }
+        public MenuTypeEnum MenuType => (MenuTypeEnum)MenuTypeId;
         
     }
 
