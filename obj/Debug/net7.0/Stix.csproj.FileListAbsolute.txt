@@ -1118,3 +1118,12 @@ C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\obj\Debug
 C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\obj\Debug\net7.0\Stix.pdb
 C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\obj\Debug\net7.0\Stix.genruntimeconfig.cache
 C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\obj\Debug\net7.0\ref\Stix.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\obj\Debug\net7.0\Stix.MvcApplicationPartsAssemblyInfo.cs

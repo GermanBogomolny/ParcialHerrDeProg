@@ -28,7 +28,7 @@ namespace Stix.Controllers
             {
                 query = query.Where(x => x.NameFood.ToLower().Contains(NameFilter.ToLower()) ||
                 x.DescriptionFood.Contains(NameFilter.ToLower()) ||
-                x.Price.ToString()==NameFilter);
+                x.Price.ToString() == NameFilter);
             }
 
             var model = new FoodViewModel();

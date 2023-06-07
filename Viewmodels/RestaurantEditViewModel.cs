@@ -6,40 +6,39 @@ using Stix.Utils;
 
 namespace Stix.ViewModels
 {
-    public class RestaurantCreateViewModel
+    public class RestaurantEditViewModel
     {
         [Required]
         [Display(Name = "Nombre del Restaurant")]
-        public string RestaurantName { get; set; }
+        public virtual string? RestaurantName { get; set; }
 
         [Required]
         [Display(Name = "Calle")]
-        public string Street { get; set; }
+        public virtual string? Street { get; set; }
 
         [Required]
         [Display(Name = "Número")]
-        public int Number { get; set; }
+        public virtual int Number { get; set; }
 
         [Display(Name = "Barrio")]
-        public string Neighbourhood { get; set; }
+        public virtual string? Neighbourhood { get; set; }
 
         [Display(Name = "Localidad")]
-        public string Town { get; set; }
+        public virtual string? Town { get; set; }
 
         [Required]
         [Display(Name = "Provincia")]
-        public string Provincia { get; set; }
+        public virtual string? Provincia { get; set; }
 
         [Required]
         [Display(Name = "Menú del restaurant")]
-        public MenuTypeEnum MenuTypeId { get; set; }
+        public virtual MenuTypeEnum MenuTypeId { get; set; }
 
         public virtual List<SelectListItem>? MenuTypes { get; set; }
 
         public virtual Restaurant? Restaurant { get; set; }
-        public virtual List<SelectListItem>? Foods { get; set; }
 
-        public List<int> SelectedFoodIds { get; set; }
+        public List<int>? SelectedFoodIds { get; set; }
         public virtual List<SelectListItem>? AvailableFoods { get; set; }
         
     }

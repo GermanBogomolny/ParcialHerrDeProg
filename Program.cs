@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Stix.Services;
 using Stix.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FoodContext>(options =>
@@ -9,6 +10,8 @@ builder.Services.AddDbContext<FoodContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 
 var app = builder.Build();
 

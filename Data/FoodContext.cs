@@ -31,6 +31,7 @@ namespace Stix.Data
                 .HasOne(f => f.Restaurant)
                 .WithMany(r => r.Foods)
                 .HasForeignKey(f => f.RestaurantId);
+            
         }
     }
 }
