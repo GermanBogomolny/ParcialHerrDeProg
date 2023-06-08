@@ -10,19 +10,16 @@ using Stix.Models;
 using Stix.Utils;
 using Stix.ViewModels;
 using Viewmodels;
+using Stix.Services;
 
 namespace Stix.Controllers
 {
     public class RestaurantController : Controller
     {
-        //TODO eliminar la siguiente línea
-        private readonly FoodContext _context;
+        private readonly IRestaurantService _restaurantService;
 
-        //TODO eliminar context de adentro del constructor
-        public RestaurantController(FoodContext context)
+        public RestaurantController(IRestaurantService restaurantservice)
         {
-            //TODOeliminar la siguiente línea
-            _context = context;
         }
 
 
@@ -30,26 +27,12 @@ namespace Stix.Controllers
         public async Task<IActionResult> Index(string NameFilter)
         {
 
-            //TODO eliminar el siguiente código
-            var query = from restaurant in _context.Restaurants select restaurant;
-            if (!string.IsNullOrEmpty(NameFilter))
-            {
-                query = query.Where(x => x.RestaurantName.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Street.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Neighbourhood.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Town.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Provincia.ToLower().Contains(NameFilter.ToLower()));
-            }
-            //TODO eliminar hasta aquí
-
             var model = new RestaurantViewModel();
-
-            //TODO elminar la siguiente línea
-            model.Restaurants = await query.ToListAsync();
-            //TODO reemplazarla por: model.Restaurants = _restaurantService.GetAll(NameFilter);
+            model.Restaurants = _restaurantService.GetAll(NameFilter);
 
             return View(model);
         }
+
 
         public async Task<IActionResult> Create(RestaurantCreateViewModel viewModel)
         {
@@ -79,20 +62,7 @@ namespace Stix.Controllers
                     MenuTypeId = viewModel.MenuTypeId,
                     Foods = new List<FoodRestaurant>()
                 };
-                foreach (var foodId in viewModel.SelectedFoodIds)
-                {
-                    var food = await _context.Foods.FindAsync(foodId);
-                    if (food != null)
-                    {
-                        restaurant.Foods.Add(new FoodRestaurant { Food = food });
-                    }
-                }
-
-                //TODO eliminar este código cuando se haga la inyección de dependencia
-                _context.Restaurants.Add(restaurant);
-                await _context.SaveChangesAsync();
-                //TODO reemplazar por:
-                //TODO _restaurantService.Create(restaurant);
+                _restaurantService.Create(restaurant,viewModel);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -101,10 +71,7 @@ namespace Stix.Controllers
                 .Select(m => new SelectListItem { Value = ((int)m).ToString(), Text = m.ToString() })
                 .ToList();
 
-            viewModel.AvailableFoods = _context.Foods
-                .Where(f => f.FoodTypeId == viewModel.MenuTypeId)
-                .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-                .ToList();
+            viewModel = _restaurantService.Listar(viewModel);
 
             return View(viewModel);
         }
@@ -112,24 +79,14 @@ namespace Stix.Controllers
         [HttpGet]
         public IActionResult GetAvailableFoods(int menuTypeId)
         {
-            var availableFoods = _context.Foods
-                .Where(f => f.FoodTypeId == (MenuTypeEnum)menuTypeId)
-                .Select(f => new SelectListItem
-                {
-                    Value = f.Id.ToString(),
-                    Text = f.NameFood
-                })
-                .ToList();
+            var availableFoods = _restaurantService.GetAvailableFoods(menuTypeId);
 
             return Json(availableFoods);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            //TODO eliminar este código cuando se haga la inyección de dependencia            
-            var restaurant = await _context.Restaurants.FindAsync(id);
-            //TODO reemplazar por:
-            //TODO var restaurant = _restaurantService.GetById(id.Value);
+            var restaurant = _restaurantService.GetById(id.Value);
 
             if (restaurant == null)
             {
@@ -154,10 +111,7 @@ namespace Stix.Controllers
                                    Text = e.ToString(),
                                    Value = ((int)e).ToString()
                                }).ToList(),
-                AvailableFoods = _context.Foods
-                   .Where(f => f.FoodTypeId == restaurant.MenuTypeId)
-                   .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-                   .ToList()
+                AvailableFoods = _restaurantService.ListarRestaurantsFoods(restaurant)
             };
 
             return View(viewModel);
@@ -202,11 +156,7 @@ namespace Stix.Controllers
                     {
                         restaurant.Foods = new List<FoodRestaurant>();
                     }
-                    //TODO eliminar este código cuando se haga la inyección de dependencia            
-                    _context.Update(restaurant);
-                    await _context.SaveChangesAsync();
-                    //TODO reemplazar por:
-                    //TODO _restaurantService.Update(restaurant);
+                _restaurantService.Update(restaurant);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -244,10 +194,7 @@ namespace Stix.Controllers
             {
                 return NotFound();
             }
-            //TODO eliminar este código cuando se haga la inyección de dependencia            
-            var restaurant = await _context.Restaurants.FindAsync(id);
-            //TODO reemplazar por:
-            //TODO var restaurant = _restaurantService.GetById(id.Value);
+            var restaurant = _restaurantService.GetById(id.Value);
 
             if (restaurant == null)
             {
@@ -256,11 +203,12 @@ namespace Stix.Controllers
 
             try
             {
-                // Eliminar las relaciones de FoodRestaurant
+                //Eliminar las relaciones de FoodRestaurant
                 //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
                 //                  _restaurantService;
                 var foodRestaurants = await _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToListAsync();
                 _context.FoodRestaurants.RemoveRange(foodRestaurants);
+                //Reemplazar por var foodRestaurants = _restaurantService.GetById(id.Value);
 
                 // Eliminar el restaurante
                 _context.Restaurants.Remove(restaurant);
@@ -280,10 +228,7 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            //TODO eliminar este código cuando se haga la inyección de dependencia            
-            var restaurant = await _context.Restaurants.FindAsync(id);
-            //TODO reemplazar por:
-            //TODO var restaurant = _restaurantService.GetById(id.Value);
+            var restaurant = _restaurantService.GetById(id);
 
 
             if (restaurant == null)
@@ -315,13 +260,7 @@ namespace Stix.Controllers
             {
                 return NotFound();
             }
-            //TODO eliminar este código cuando se haga la inyección de dependencia
-            var restaurant = await _context.Restaurants
-            .Include(r => r.Foods)
-            .ThenInclude(fr => fr.Food)
-            .FirstOrDefaultAsync(m => m.Id == id);
-            //TODO reemplazar por:
-            //TODO var restaurant = _restaurantService.GetById(id.Value);
+            var restaurant = _restaurantService.GetById(id.Value);
 
 
             if (restaurant == null)
