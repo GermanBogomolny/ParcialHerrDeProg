@@ -15,4 +15,7 @@ public interface IRestaurantService
     RestaurantCreateViewModel? Listar(RestaurantCreateViewModel viewModel);
     List<SelectListItem>? GetAvailableFoods(int menuTypeId);
     List<SelectListItem>? ListarRestaurantsFoods(Restaurant restaurant);
+    List<SelectListItem>? GetAvailableFoodsEdit();
+    bool RestaurantExists(int id);
+
 }

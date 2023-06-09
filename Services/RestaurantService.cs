@@ -49,6 +49,7 @@ public class RestaurantService : IRestaurantService
             x.Town.ToLower().Contains(filter.ToLower()) ||
             x.Provincia.ToLower().Contains(filter.ToLower()));
         }
+
         return query.ToList();
     }
 
@@ -69,15 +70,15 @@ public class RestaurantService : IRestaurantService
              .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
              .ToList();
 
-             return viewModel;
+        return viewModel;
     }
     public List<SelectListItem>? ListarRestaurantsFoods(Restaurant restaurant)
     {
-               var AvailableFoods = _context.Foods
-                   .Where(f => f.FoodTypeId == restaurant.MenuTypeId)
-                   .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-                   .ToList();
-                   return AvailableFoods;
+        var AvailableFoods = _context.Foods
+            .Where(f => f.FoodTypeId == restaurant.MenuTypeId)
+            .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
+            .ToList();
+        return AvailableFoods;
     }
     public void Update(Restaurant obj)
     {
@@ -87,15 +88,29 @@ public class RestaurantService : IRestaurantService
 
     public List<SelectListItem>? GetAvailableFoods(int menuTypeId)
     {
-            var availableFoods = _context.Foods
-                .Where(f => f.FoodTypeId == (MenuTypeEnum)menuTypeId)
-                .Select(f => new SelectListItem
-                {
-                    Value = f.Id.ToString(),
-                    Text = f.NameFood
-                })
-                .ToList();
+        var availableFoods = _context.Foods
+            .Where(f => f.FoodTypeId == (MenuTypeEnum)menuTypeId)
+            .Select(f => new SelectListItem
+            {
+                Value = f.Id.ToString(),
+                Text = f.NameFood
+            })
+            .ToList();
 
-            return availableFoods;
+        return availableFoods;
     }
+    public List<SelectListItem>? GetAvailableFoodsEdit()
+    {
+        var AvailableFoods = _context.Foods
+            .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
+            .ToList();
+
+        return AvailableFoods;
+    }
+
+    public bool RestaurantExists(int id)
+    {
+        return _context.Restaurants.Any(e => e.Id == id);
+    }
+
 }

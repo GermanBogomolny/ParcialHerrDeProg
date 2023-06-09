@@ -130,7 +130,7 @@ namespace Stix.Controllers
             {
                 try
                 {
-                    var restaurant = await _context.Restaurants.Include(r => r.Foods).FirstOrDefaultAsync(r => r.Id == id);
+                    var restaurant = _restaurantService.GetById(id);
 
                     if (restaurant == null)
                     {
@@ -180,9 +180,7 @@ namespace Stix.Controllers
                             Value = ((int)e).ToString()
                         }).ToList();
 
-            viewModel.AvailableFoods = await _context.Foods
-                        .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-                        .ToListAsync();
+            viewModel.AvailableFoods = _restaurantService.GetAvailableFoodsEdit();
 
             return View(viewModel);
         }
@@ -206,13 +204,13 @@ namespace Stix.Controllers
                 //Eliminar las relaciones de FoodRestaurant
                 //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
                 //                  _restaurantService;
-                var foodRestaurants = await _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToListAsync();
-                _context.FoodRestaurants.RemoveRange(foodRestaurants);
+                /////var foodRestaurants = await _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToListAsync();
+                /////_context.FoodRestaurants.RemoveRange(foodRestaurants);
                 //Reemplazar por var foodRestaurants = _restaurantService.GetById(id.Value);
 
                 // Eliminar el restaurante
-                _context.Restaurants.Remove(restaurant);
-                await _context.SaveChangesAsync();
+                /////_context.Restaurants.Remove(restaurant);
+                /////await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -239,20 +237,20 @@ namespace Stix.Controllers
             //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
             //                  _restaurantService;
             // Eliminar las relaciones de FoodRestaurant del restaurante que estamos eliminando
-            var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id);
-            _context.FoodRestaurants.RemoveRange(foodRestaurants);
+            /////var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id);
+            /////_context.FoodRestaurants.RemoveRange(foodRestaurants);
 
             //TODO eliminar este código cuando se haga la inyección de dependencia    
             //                  _restaurantService;
             // Eliminar el restaurante
-            _context.Restaurants.Remove(restaurant);
-            await _context.SaveChangesAsync();
+            /////_context.Restaurants.Remove(restaurant);
+            /////await _context.SaveChangesAsync();
             //TODO _restaurantService.Delete(restaurant);
             return RedirectToAction(nameof(Index));
         }
         private bool RestaurantExists(int id)
         {
-            return _context.Restaurants.Any(e => e.Id == id);
+            return _restaurantService.RestaurantExists(id);
         }
         public async Task<IActionResult> Details(int? id)
         {
