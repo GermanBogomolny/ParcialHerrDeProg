@@ -34,8 +34,9 @@ public class RestaurantService : IRestaurantService
 
     public void Delete(Restaurant obj)
     {
-        _context.Add(obj);
+        _context.Restaurants.Remove(obj);
         _context.SaveChanges();
+
     }
 
     public List<Restaurant> GetAll(string filter)
@@ -108,9 +109,21 @@ public class RestaurantService : IRestaurantService
         return AvailableFoods;
     }
 
+    public List<FoodRestaurant> GetAllFoodByRestaurantId(int id)
+    {
+        var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToList();
+
+        return foodRestaurants;
+    }
+
+
     public bool RestaurantExists(int id)
     {
         return _context.Restaurants.Any(e => e.Id == id);
     }
 
+    public void FoodRestaurantRemoveRange(List<FoodRestaurant> obj)
+    {
+        _context.FoodRestaurants.RemoveRange(obj);
+    }
 }

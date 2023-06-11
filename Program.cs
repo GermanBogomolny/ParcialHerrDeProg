@@ -10,8 +10,8 @@ builder.Services.AddDbContext<FoodContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+builder.Services.AddScoped<IFoodService, FoodService>();
 
 var app = builder.Build();
 

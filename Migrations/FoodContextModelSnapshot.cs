@@ -44,7 +44,7 @@ namespace Stix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.FoodRestaurant", b =>
@@ -59,7 +59,7 @@ namespace Stix.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("FoodRestaurants");
+                    b.ToTable("FoodRestaurants", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.Restaurant", b =>
@@ -96,7 +96,7 @@ namespace Stix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.FoodRestaurant", b =>

@@ -20,6 +20,7 @@ namespace Stix.Controllers
 
         public RestaurantController(IRestaurantService restaurantservice)
         {
+            _restaurantService = restaurantservice;
         }
 
 
@@ -62,7 +63,7 @@ namespace Stix.Controllers
                     MenuTypeId = viewModel.MenuTypeId,
                     Foods = new List<FoodRestaurant>()
                 };
-                _restaurantService.Create(restaurant,viewModel);
+                _restaurantService.Create(restaurant, viewModel);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -125,7 +126,17 @@ namespace Stix.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("restaurant.RestaurantName");
+            ModelState.Remove("restaurant.Street");
+            ModelState.Remove("restaurant.Number");
+            ModelState.Remove("restaurant.Neighbourhood");
+            ModelState.Remove("restaurant.Street");
+            ModelState.Remove("restaurant.Town");
+            ModelState.Remove("restaurant.Provincia");
+            ModelState.Remove("availableFoods");
+            ModelState.Remove("MenuTypes");
+            ModelState.Remove("Foods");
+            ModelState.Remove("restaurant.Foods");
             if (ModelState.IsValid)
             {
                 try
@@ -156,7 +167,7 @@ namespace Stix.Controllers
                     {
                         restaurant.Foods = new List<FoodRestaurant>();
                     }
-                _restaurantService.Update(restaurant);
+                    _restaurantService.Update(restaurant);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -185,7 +196,7 @@ namespace Stix.Controllers
             return View(viewModel);
         }
 
-        //GET:Restaurant/Delete
+        //Restaurant/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -201,16 +212,12 @@ namespace Stix.Controllers
 
             try
             {
-                //Eliminar las relaciones de FoodRestaurant
-                //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
-                //                  _restaurantService;
-                /////var foodRestaurants = await _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToListAsync();
-                /////_context.FoodRestaurants.RemoveRange(foodRestaurants);
-                //Reemplazar por var foodRestaurants = _restaurantService.GetById(id.Value);
+                //Elimina las relaciones de FoodRestaurant
+                var foodRestaurants = _restaurantService.GetAllFoodByRestaurantId(id.Value);
+                _restaurantService.FoodRestaurantRemoveRange(foodRestaurants);
 
-                // Eliminar el restaurante
-                /////_context.Restaurants.Remove(restaurant);
-                /////await _context.SaveChangesAsync();
+                //Elimina el restaurante
+                _restaurantService.Delete(restaurant);
 
                 return RedirectToAction(nameof(Index));
             }

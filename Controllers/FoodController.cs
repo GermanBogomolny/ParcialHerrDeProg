@@ -8,47 +8,38 @@ using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
 using Viewmodels;
+using Stix.Services;
 
 namespace Stix.Controllers
 {
     public class FoodController : Controller
     {
-        private readonly FoodContext _context;
+        private readonly IFoodService _foodService;
 
-        public FoodController(FoodContext context)
+        public FoodController(IFoodService foodservice)
         {
-            _context = context;
+            _foodService = foodservice;
         }
 
         // GET: Food
         public async Task<IActionResult> Index(string NameFilter)
         {
-            var query = from food in _context.Foods select food;
-            if (!string.IsNullOrEmpty(NameFilter))
-            {
-                query = query.Where(x => x.NameFood.ToLower().Contains(NameFilter.ToLower()) ||
-                x.DescriptionFood.Contains(NameFilter.ToLower()) ||
-                x.Price.ToString() == NameFilter);
-            }
 
             var model = new FoodViewModel();
-            model.Foods = await query.ToListAsync();
+            model.Foods = _foodService.GetAll(NameFilter);
 
-            return _context.Foods != null ?
-                        View(model) :
-                        Problem("Entity set 'FoodContext.Food'  is null.");
+        return View(model);
         }
 
         // GET: Food/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Foods == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var food = await _context.Foods
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var food = _foodService.GetById(id);
             if (food == null)
             {
                 return NotFound();
@@ -68,15 +59,14 @@ namespace Stix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameFood,DescriptionFood,IsVeganFood,IsVegetarianFood,Price,FoodTypeId")] Food food)
+        public async Task<IActionResult> Create(Food food, FoodCreateViewModel viewModel)
         {
             ModelState.Remove("IsVegetarianFood");
             ModelState.Remove("IsVeganFood");
             ModelState.Remove("Restaurants");
             if (ModelState.IsValid)
             {
-                _context.Add(food);
-                await _context.SaveChangesAsync();
+                _foodService.Create(food, viewModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(food);
@@ -85,16 +75,13 @@ namespace Stix.Controllers
         // GET: Food/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Foods == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var food = await _context.Foods.FindAsync(id);
-            if (food == null)
-            {
-                return NotFound();
-            }
+            var food = _foodService.GetById(id);
+
             return View(food);
         }
 
@@ -112,8 +99,7 @@ namespace Stix.Controllers
 
             try
             {
-                _context.Update(food);
-                await _context.SaveChangesAsync();
+                _foodService.Update(food);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -132,13 +118,12 @@ namespace Stix.Controllers
         // GET: Food/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Foods == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var food = await _context.Foods
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var food = _foodService.GetById(id);
             if (food == null)
             {
                 return NotFound();
@@ -152,23 +137,13 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Foods == null)
-            {
-                return Problem("Entity set 'FoodContext.Food'  is null.");
-            }
-            var food = await _context.Foods.FindAsync(id);
-            if (food != null)
-            {
-                _context.Foods.Remove(food);
-            }
-
-            await _context.SaveChangesAsync();
+            _foodService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool FoodExists(int id)
         {
-            return (_context.Foods?.Any(e => e.Id == id)).GetValueOrDefault();
+            return _foodService.FoodExists(id);
         }
     }
 }
