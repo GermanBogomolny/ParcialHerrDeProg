@@ -61,4 +61,7 @@
                     Todas las fotos y el código pertenecen al creador de este proyecto. El código es abierto y de
                     uso libre y gratuito.
             </h4>
+            <h4>
+                    En el archivo Clavesparcial se encuentran los datos de los usuarios.
+            </h4>
 </body>
