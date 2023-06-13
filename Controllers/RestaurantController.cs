@@ -10,299 +10,265 @@ using Stix.Models;
 using Stix.Utils;
 using Stix.ViewModels;
 using Viewmodels;
+using Stix.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Stix.Controllers
 {
+    [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
     public class RestaurantController : Controller
     {
-        private readonly FoodContext _context;
+        private readonly IRestaurantService _restaurantService;
 
-        public RestaurantController(FoodContext context)
+        public RestaurantController(IRestaurantService restaurantservice)
         {
-            _context = context;
+            _restaurantService = restaurantservice;
         }
 
 
         // GET: Restaurant
         public async Task<IActionResult> Index(string NameFilter)
         {
-            var query = from restaurant in _context.Restaurants select restaurant;
-            if (!string.IsNullOrEmpty(NameFilter))
-            {
-                query = query.Where(x => x.RestaurantName.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Street.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Neighbourhood.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Town.ToLower().Contains(NameFilter.ToLower()) ||
-                x.Provincia.ToLower().Contains(NameFilter.ToLower()));
-            }
 
             var model = new RestaurantViewModel();
-            model.Restaurants = await query.ToListAsync();
+            model.Restaurants = _restaurantService.GetAll(NameFilter);
 
             return View(model);
         }
 
-public async Task<IActionResult> Create(RestaurantCreateViewModel viewModel)
-{
-  var model = new RestaurantCreateViewModel
-    {
-        MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
-                        .Cast<MenuTypeEnum>()
-                        .Select(e => new SelectListItem
-                        {
-                            Text = e.ToString(),
-                            Value = ((int)e).ToString()
-                        }).ToList(),
-        AvailableFoods = new List<SelectListItem>()
-    };
 
-    ModelState.Remove("Foods");
-    ModelState.Remove("Restaurant");
-    ModelState.Remove("availableFoods");
-    ModelState.Remove("MenuTypes");
-    
-    if (ModelState.IsValid)
-    {
-        var restaurant = new Restaurant
+        public async Task<IActionResult> Create(RestaurantCreateViewModel viewModel)
         {
-            RestaurantName = viewModel.RestaurantName,
-            Street = viewModel.Street,
-            Number = viewModel.Number,
-            Neighbourhood = viewModel.Neighbourhood,
-            Town = viewModel.Town,
-            Provincia = viewModel.Provincia,
-            MenuTypeId = viewModel.MenuTypeId,
-            Foods = new List<FoodRestaurant>()
-        };
-
-        foreach (var foodId in viewModel.SelectedFoodIds)
-        {
-            var food = await _context.Foods.FindAsync(foodId);
-            if (food != null)
+            var model = new RestaurantCreateViewModel
             {
-                restaurant.Foods.Add(new FoodRestaurant { Food = food });
+                MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                                  .Cast<MenuTypeEnum>()
+                                  .Select(e => new SelectListItem
+                                  {
+                                      Text = e.ToString(),
+                                      Value = ((int)e).ToString()
+                                  }).ToList(),
+                AvailableFoods = new List<SelectListItem>()
+            };
+
+
+            if (ModelState.IsValid)
+            {
+                var restaurant = new Restaurant
+                {
+                    RestaurantName = viewModel.RestaurantName,
+                    Street = viewModel.Street,
+                    Number = viewModel.Number,
+                    Neighbourhood = viewModel.Neighbourhood,
+                    Town = viewModel.Town,
+                    Provincia = viewModel.Provincia,
+                    MenuTypeId = viewModel.MenuTypeId,
+                    Foods = new List<FoodRestaurant>()
+                };
+                _restaurantService.Create(restaurant, viewModel);
+                return RedirectToAction(nameof(Index));
             }
+
+            viewModel.MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                .Cast<MenuTypeEnum>()
+                .Select(m => new SelectListItem { Value = ((int)m).ToString(), Text = m.ToString() })
+                .ToList();
+
+            viewModel = _restaurantService.Listar(viewModel);
+
+            return View(viewModel);
         }
 
-        _context.Restaurants.Add(restaurant);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-
-    viewModel.MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
-        .Cast<MenuTypeEnum>()
-        .Select(m => new SelectListItem { Value = ((int)m).ToString(), Text = m.ToString() })
-        .ToList();
-
-    viewModel.AvailableFoods = _context.Foods
-        .Where(f => f.FoodTypeId == viewModel.MenuTypeId)
-        .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-        .ToList();
-
-    return View(viewModel);
-}
-
-[HttpGet]
-public IActionResult GetAvailableFoods(int menuTypeId)
-{
-    var availableFoods = _context.Foods
-        .Where(f => f.FoodTypeId == (MenuTypeEnum)menuTypeId)
-        .Select(f => new SelectListItem
+        [HttpGet]
+        public IActionResult GetAvailableFoods(int menuTypeId)
         {
-            Value = f.Id.ToString(),
-            Text = f.NameFood
-        })
-        .ToList();
+            var availableFoods = _restaurantService.GetAvailableFoods(menuTypeId);
 
-    return Json(availableFoods);
-}
+            return Json(availableFoods);
+        }
 
-public async Task<IActionResult> Edit(int? id)
-{
-    var restaurant = await _context.Restaurants.FindAsync(id);
-   
-    if (restaurant == null)
-    {
-        return NotFound();
-    }
-
- var viewModel = new RestaurantCreateViewModel
-{
-    Restaurant = restaurant,
-    RestaurantName = restaurant.RestaurantName,
-    Street = restaurant.Street,
-    Number = restaurant.Number,
-    Neighbourhood = restaurant.Neighbourhood,
-    Town = restaurant.Town,
-    Provincia = restaurant.Provincia,
-    MenuTypeId = restaurant.MenuTypeId,
-    SelectedFoodIds = restaurant.Foods?.Select(f => f.FoodId)?.ToList() ?? new List<int>(),
-    MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
-                    .Cast<MenuTypeEnum>()
-                    .Select(e => new SelectListItem
-                    {
-                        Text = e.ToString(),
-                        Value = ((int)e).ToString()
-                    }).ToList(),
-    AvailableFoods = _context.Foods
-        .Where(f => f.FoodTypeId == restaurant.MenuTypeId)
-        .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-        .ToList()
-};
-
-    return View(viewModel);
-}
-
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Edit(int id, RestaurantCreateViewModel viewModel)
-{
-    if (id != viewModel.Restaurant.Id)
-    {
-        return NotFound();
-    }
-    ModelState.Remove("restaurant.RestaurantName");
-    ModelState.Remove("restaurant.Street");
-    ModelState.Remove("restaurant.Number");
-    ModelState.Remove("restaurant.Neighbourhood");
-    ModelState.Remove("restaurant.Street");
-    ModelState.Remove("restaurant.Town");
-    ModelState.Remove("restaurant.Provincia");
-    ModelState.Remove("availableFoods");
-    ModelState.Remove("MenuTypes");
-    ModelState.Remove("Foods");
-    ModelState.Remove("restaurant.Foods");
-    if (ModelState.IsValid)
-    {
-        try
+        public async Task<IActionResult> Edit(int? id)
         {
-            var restaurant = await _context.Restaurants.Include(r => r.Foods).FirstOrDefaultAsync(r => r.Id == id);
+            var restaurant = _restaurantService.GetById(id.Value);
 
             if (restaurant == null)
             {
                 return NotFound();
             }
-            restaurant.RestaurantName = viewModel.RestaurantName;
-            restaurant.Street = viewModel.Street;
-            restaurant.Number = viewModel.Number;
-            restaurant.Neighbourhood = viewModel.Neighbourhood;
-            restaurant.Town = viewModel.Town;
-            restaurant.Provincia = viewModel.Provincia;
-            restaurant.MenuTypeId = viewModel.MenuTypeId;
 
-            if (viewModel.SelectedFoodIds != null)
+            var viewModel = new RestaurantEditViewModel
             {
-                restaurant.Foods = viewModel.SelectedFoodIds.Select(id => new FoodRestaurant
-                {
-                    RestaurantId = restaurant.Id,
-                    FoodId = id
-                }).ToList();
-            }
-            else
-            {
-                restaurant.Foods = new List<FoodRestaurant>();
-            }
+                Restaurant = restaurant,
+                RestaurantName = restaurant.RestaurantName,
+                Street = restaurant.Street,
+                Number = restaurant.Number,
+                Neighbourhood = restaurant.Neighbourhood,
+                Town = restaurant.Town,
+                Provincia = restaurant.Provincia,
+                MenuTypeId = restaurant.MenuTypeId,
+                SelectedFoodIds = restaurant.Foods?.Select(f => f.FoodId)?.ToList() ?? new List<int>(),
+                MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                               .Cast<MenuTypeEnum>()
+                               .Select(e => new SelectListItem
+                               {
+                                   Text = e.ToString(),
+                                   Value = ((int)e).ToString()
+                               }).ToList(),
+                AvailableFoods = _restaurantService.ListarRestaurantsFoods(restaurant)
+            };
 
-            _context.Update(restaurant);
-            await _context.SaveChangesAsync();
+            return View(viewModel);
         }
-        catch (DbUpdateConcurrencyException)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, RestaurantEditViewModel viewModel)
         {
-            if (!RestaurantExists(viewModel.Restaurant.Id))
+            if (id != viewModel.Restaurant.Id)
             {
                 return NotFound();
             }
-            else
+            ModelState.Remove("restaurant.RestaurantName");
+            ModelState.Remove("restaurant.Street");
+            ModelState.Remove("restaurant.Number");
+            ModelState.Remove("restaurant.Neighbourhood");
+            ModelState.Remove("restaurant.Street");
+            ModelState.Remove("restaurant.Town");
+            ModelState.Remove("restaurant.Provincia");
+            ModelState.Remove("availableFoods");
+            ModelState.Remove("MenuTypes");
+            ModelState.Remove("Foods");
+            ModelState.Remove("restaurant.Foods");
+            if (ModelState.IsValid)
             {
-                throw;
-            }
-        }
-        return RedirectToAction(nameof(Index));
-    }
-
-    viewModel.MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
-                .Cast<MenuTypeEnum>()
-                .Select(e => new SelectListItem
+                try
                 {
-                    Text = e.ToString(),
-                    Value = ((int)e).ToString()
-                }).ToList();
+                    var restaurant = _restaurantService.GetById(id);
 
-    viewModel.AvailableFoods = await _context.Foods
-                .Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.NameFood })
-                .ToListAsync();
+                    if (restaurant == null)
+                    {
+                        return NotFound();
+                    }
+                    restaurant.RestaurantName = viewModel.RestaurantName;
+                    restaurant.Street = viewModel.Street;
+                    restaurant.Number = viewModel.Number;
+                    restaurant.Neighbourhood = viewModel.Neighbourhood;
+                    restaurant.Town = viewModel.Town;
+                    restaurant.Provincia = viewModel.Provincia;
+                    restaurant.MenuTypeId = viewModel.MenuTypeId;
 
-    return View(viewModel);
-}
+                    if (viewModel.SelectedFoodIds != null)
+                    {
+                        restaurant.Foods = viewModel.SelectedFoodIds.Select(id => new FoodRestaurant
+                        {
+                            RestaurantId = restaurant.Id,
+                            FoodId = id
+                        }).ToList();
+                    }
+                    else
+                    {
+                        restaurant.Foods = new List<FoodRestaurant>();
+                    }
+                    _restaurantService.Update(restaurant);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RestaurantExists(viewModel.Restaurant.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
 
-public async Task<IActionResult> Delete(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
+            viewModel.MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                        .Cast<MenuTypeEnum>()
+                        .Select(e => new SelectListItem
+                        {
+                            Text = e.ToString(),
+                            Value = ((int)e).ToString()
+                        }).ToList();
 
-    var restaurant = await _context.Restaurants.FindAsync(id);
+            viewModel.AvailableFoods = _restaurantService.GetAvailableFoodsEdit();
 
-    if (restaurant == null)
-    {
-        return NotFound();
-    }
+            return View(viewModel);
+        }
 
-    try
-    {
-        // Eliminar las relaciones de FoodRestaurant
-        var foodRestaurants = await _context.FoodRestaurants.Where(fr => fr.RestaurantId == id).ToListAsync();
-        _context.FoodRestaurants.RemoveRange(foodRestaurants);
-
-        // Eliminar el restaurante
-        _context.Restaurants.Remove(restaurant);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction(nameof(Index));
-    }
-    catch (Exception ex)
-    {
-        // Manejar la excepción apropiadamente
-        return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
-    }
-}
-
-[HttpPost, ActionName("Delete")]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Delete(int id)
-{
-    var restaurant = await _context.Restaurants.FindAsync(id);
-
-    if (restaurant == null)
-    {
-        return NotFound();
-    }
-
-    // Eliminar las relaciones de FoodRestaurant del restaurante que estamos eliminando
-    var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id);
-    _context.FoodRestaurants.RemoveRange(foodRestaurants);
-
-    // Eliminar el restaurante
-    _context.Restaurants.Remove(restaurant);
-    await _context.SaveChangesAsync();
-    return RedirectToAction(nameof(Index));
-}
-private bool RestaurantExists(int id)
-{
-    return _context.Restaurants.Any(e => e.Id == id);
-}
-public async Task<IActionResult> Details(int? id)
+        //Restaurant/Delete
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            var restaurant = _restaurantService.GetById(id.Value);
 
-            var restaurant = await _context.Restaurants
-        .Include(r => r.Foods)
-            .ThenInclude(fr => fr.Food)
-        .FirstOrDefaultAsync(m => m.Id == id);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                //Elimina las relaciones de FoodRestaurant
+                var foodRestaurants = _restaurantService.GetAllFoodByRestaurantId(id.Value);
+                _restaurantService.FoodRestaurantRemoveRange(foodRestaurants);
+
+                //Elimina el restaurante
+                _restaurantService.Delete(restaurant);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción apropiadamente
+                return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
+            }
+        }
+
+        //POST: Restaurant/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var restaurant = _restaurantService.GetById(id);
+
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
+            //                  _restaurantService;
+            // Eliminar las relaciones de FoodRestaurant del restaurante que estamos eliminando
+            /////var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id);
+            /////_context.FoodRestaurants.RemoveRange(foodRestaurants);
+
+            //TODO eliminar este código cuando se haga la inyección de dependencia    
+            //                  _restaurantService;
+            // Eliminar el restaurante
+            /////_context.Restaurants.Remove(restaurant);
+            /////await _context.SaveChangesAsync();
+            //TODO _restaurantService.Delete(restaurant);
+            return RedirectToAction(nameof(Index));
+        }
+        private bool RestaurantExists(int id)
+        {
+            return _restaurantService.RestaurantExists(id);
+        }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var restaurant = _restaurantService.GetById(id.Value);
+
 
             if (restaurant == null)
             {

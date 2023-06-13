@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Stix.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Stix.ViewModels{
 public class RestaurantDetailsViewModel
@@ -31,15 +32,15 @@ public class RestaurantDetailsViewModel
         [Display(Name = "Menú del restaurant")]
         public MenuTypeEnum MenuTypeId { get; set; }
 
-        public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> MenuTypes { get; set; }
+        public List<SelectListItem> MenuTypes { get; set; }
 
         public Restaurant Restaurant { get; set; }
-        public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Foods { get; set; }
+        public List<SelectListItem> Foods { get; set; }
 
         public List<int> SelectedFoodIds { get; set; }
-        public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvailableFoods { get; set; }
+        public List<SelectListItem> AvailableFoods { get; set; }
 
-        public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AllFoods { get; set; }
+        public List<SelectListItem> AllFoods { get; set; }
 
         public MenuTypeEnum MenuType => (MenuTypeEnum)MenuTypeId;
         

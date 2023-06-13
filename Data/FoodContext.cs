@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Stix.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Stix.Data
 {
-    public class FoodContext : DbContext
+    public class FoodContext : IdentityDbContext
     {
         public FoodContext(DbContextOptions<FoodContext> options) : base(options)
         {
@@ -16,6 +17,8 @@ namespace Stix.Data
         public DbSet<Food> Foods { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<FoodRestaurant> FoodRestaurants { get; set; }
+        public DbSet<Client> Clients {get;set;}
+        public DbSet<Order> Orders {get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +34,12 @@ namespace Stix.Data
                 .HasOne(f => f.Restaurant)
                 .WithMany(r => r.Foods)
                 .HasForeignKey(f => f.RestaurantId);
+                
+            modelBuilder.Entity<Client>()
+                .HasMany(f => f.Orders)
+                .WithOne(f => f.Client);
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

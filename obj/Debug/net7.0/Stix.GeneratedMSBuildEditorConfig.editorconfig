@@ -9,77 +9,105 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Stix
 build_property.RootNamespace = Stix
-build_property.ProjectDir = C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg\
+build_property.ProjectDir = C:\Users\morka\OneDrive\Escritorio\CarpetaSoloParaDesarrollo2\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\morka\OneDrive\Escritorio\ProyectoParcialGB\ParcialHerrDeProg
+build_property.MSBuildProjectDirectory = C:\Users\morka\OneDrive\Escritorio\CarpetaSoloParaDesarrollo2
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Food/Create.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Areas/Identity/Pages/_Viewstart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdzdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/ClientView/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50Vmlld1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Food/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Food/Delete.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Food/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Food/Details.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Food/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Food/Edit.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Food/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Food/Index.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Food/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Home/Index.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Home/Privacy.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Restaurant/Create.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Restaurant/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Restaurant/Delete.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Restaurant/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Restaurant/Details.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Restaurant/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Restaurant/Edit.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Restaurant/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Restaurant/Index.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Restaurant/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Shared/Error.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Roles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Roles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/_ViewImports.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Users/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/_ViewStart.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/morka/OneDrive/Escritorio/ProyectoParcialGB/ParcialHerrDeProg/Views/Shared/_Layout.cshtml]
+[C:/Users/morka/OneDrive/Escritorio/CarpetaSoloParaDesarrollo2/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-0dlrxxafst

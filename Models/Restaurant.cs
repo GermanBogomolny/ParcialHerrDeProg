@@ -32,6 +32,5 @@ public class Restaurant
     [Display(Name = "Menú del restaurant")]
     public MenuTypeEnum MenuTypeId { get; set; }
 
-   public virtual List<FoodRestaurant> Foods { get; set; }
-
+    public virtual List<FoodRestaurant> Foods { get; set; }
 }

@@ -34,13 +34,13 @@ namespace Stix.ViewModels
         [Display(Name = "Menú del restaurant")]
         public MenuTypeEnum MenuTypeId { get; set; }
 
-        public List<SelectListItem> MenuTypes { get; set; }
+        public virtual List<SelectListItem>? MenuTypes { get; set; }
 
-        public Restaurant Restaurant { get; set; }
-        public List<SelectListItem> Foods { get; set; }
+        public virtual Restaurant? Restaurant { get; set; }
+        public virtual List<SelectListItem>? Foods { get; set; }
 
         public List<int> SelectedFoodIds { get; set; }
-        public List<SelectListItem> AvailableFoods { get; set; }
+        public virtual List<SelectListItem>? AvailableFoods { get; set; }
         
     }
 }

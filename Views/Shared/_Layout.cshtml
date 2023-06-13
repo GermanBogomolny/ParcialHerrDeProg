@@ -26,7 +26,10 @@
                             <a class="nav-link text-dark fst-italic outline-dark" asp-area="" asp-controller="Home"
                                 asp-action="Index">Página de inicio</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fst-italic outline-dark" asp-area="" asp-controller="ClientView"
+                                asp-action="Index">Nuestros platos</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -38,6 +41,7 @@
                                 asp-action="Index">Administrar datos de restoranes</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial"/>
                 </div>
             </div>
         </nav>
