@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Stix.Controllers
 {
+    [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
     public class OrderController : Controller
     {
         private readonly FoodContext _context;

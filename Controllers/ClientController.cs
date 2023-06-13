@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Stix.Controllers
 {
+    [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
     public class ClientController : Controller
     {
         private readonly FoodContext _context;
@@ -58,6 +60,7 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NameClient,SurnameClient,PhoneClient,EmailClient")] Client client)
         {
+            ModelState.Remove("Orders");
             if (ModelState.IsValid)
             {
                 _context.Add(client);

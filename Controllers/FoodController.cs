@@ -10,6 +10,7 @@ using Stix.Models;
 using Viewmodels;
 using Stix.Services;
 using Microsoft.AspNetCore.Authorization;
+using Stix.ViewModels;
 
 namespace Stix.Controllers
 
@@ -79,16 +80,44 @@ namespace Stix.Controllers
         }
 
         // GET: Food/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string NameFilter)
         {
-            if (id == null)
+            var model = new FoodViewModel();
+            model.Foods = _foodService.GetAll(NameFilter);
+
+            return View(model);
+        }
+
+        // GET: UpdatePrice/Edit
+
+        public IActionResult UpdatePrice(int? id)
+        {
+            var food = _foodService.GetById(id);
+            var viewModel = new UpdatePriceViewModel
+            {
+                Id = food.Id,
+                Name = food.NameFood,
+                Price = food.Price
+            };
+            return View(viewModel);
+        }
+
+        // POST: UpdatePrice/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePrice(UpdatePriceViewModel model)
+        {
+            var food = _foodService.GetById(model.Id);
+            if (model == null)
             {
                 return NotFound();
             }
-
-            var food = _foodService.GetById(id);
-
-            return View(food);
+            if (model.Percent > 0)
+            {
+            food.Price = (model.Percent * food.Price / 100) + food.Price;
+            _foodService.Update(food);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Food/Edit/5

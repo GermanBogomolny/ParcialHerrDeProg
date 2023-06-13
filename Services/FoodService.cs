@@ -63,7 +63,11 @@ public class FoodService : IFoodService
         _context.Update(obj);
         _context.SaveChangesAsync();
     }
-
+    public void Update(FoodEditViewModel obj)
+    {
+        _context.Update(obj);
+        _context.SaveChangesAsync();
+    }
     public bool FoodExists(int id)
     {
         return (_context.Foods?.Any(e => e.Id == id)).GetValueOrDefault();

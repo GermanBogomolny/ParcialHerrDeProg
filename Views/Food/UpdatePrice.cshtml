@@ -1,0 +1,31 @@
+@model Stix.ViewModels.UpdatePriceViewModel
+
+@{
+    ViewData["Title"] = "Actualizar Precio";
+}
+
+<h1>Actualizar precios de platos</h1>
+
+<h4>Menu</h4>
+<hr />
+<p>@Model.Name</p>
+<div>
+    <p>Precio actual: @Model.Price</p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdatePrice" method="post">
+            <div class="form-group">
+                <label asp-for="Percent" class="control-label"></label>
+                <input asp-for="Percent" class="form-control" />
+                <span asp-validation-for="Percent" class="text-danger"></span>
+            </div><br>
+             <div class="form-group">
+                <input type="submit" value="Actualizar Precio" class="btn btn-primary" />
+            </div><br>
+        </form>
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="Index" role="button">Volver</a>
+    </div>
+</div>

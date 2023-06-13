@@ -18700,11 +18700,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\aaaaaaaaaaaaaaaaaa\\Client\\Edit.cshtml",
-      "TargetPath": "aaaaaaaaaaaaaaaaaa\\Client\\Edit.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Restaurant\\Create.cshtml",
       "TargetPath": "Views\\Restaurant\\Create.cshtml",
       "FileKind": "mvc"
@@ -18725,23 +18720,18 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\aaaaaaaaaaaaaaaaaa\\Client\\Index.cshtml",
-      "TargetPath": "aaaaaaaaaaaaaaaaaa\\Client\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Food\\Details.cshtml",
       "TargetPath": "Views\\Food\\Details.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\aaaaaaaaaaaaaaaaaa\\Client\\Details.cshtml",
-      "TargetPath": "aaaaaaaaaaaaaaaaaa\\Client\\Details.cshtml",
+      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Order\\Create.cshtml",
+      "TargetPath": "Views\\Order\\Create.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Order\\Create.cshtml",
-      "TargetPath": "Views\\Order\\Create.cshtml",
+      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Food\\UpdatePrice.cshtml",
+      "TargetPath": "Views\\Food\\UpdatePrice.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -18767,11 +18757,6 @@
     {
       "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\aaaaaaaaaaaaaaaaaa\\Client\\Delete.cshtml",
-      "TargetPath": "aaaaaaaaaaaaaaaaaa\\Client\\Delete.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -18822,11 +18807,6 @@
     {
       "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Views\\Client\\Delete.cshtml",
       "TargetPath": "Views\\Client\\Delete.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\aaaaaaaaaaaaaaaaaa\\Client\\Create.cshtml",
-      "TargetPath": "aaaaaaaaaaaaaaaaaa\\Client\\Create.cshtml",
       "FileKind": "mvc"
     },
     {

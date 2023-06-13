@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Client
 {
+    [Display(Name = "Número de cliente")]
     public int Id { get; set; }
 
     [Required]
@@ -23,5 +24,4 @@ public class Client
 
     public virtual List<Order> Orders {get;set;}
 
-    public virtual List<Client> Clients {get;set;}
 }

@@ -3,7 +3,7 @@ using Stix.Utils;
 
 namespace Stix.Models;
 
-public class Food
+public class FoodEditViewModel
 {
     public int Id { get; set; }
 
@@ -15,12 +15,6 @@ public class Food
     [Display(Name = "Descripción del plato")]
     public string DescriptionFood { get; set; }
 
-    [Display(Name = "Vegano")]
-    public bool IsVeganFood { get; set; }
-
-    [Display(Name = "Vegetariano")]
-    public bool IsVegetarianFood { get; set; }
-
     [Required]
     [Display(Name = "Precio")]
     public int Price { get; set; }
@@ -28,6 +22,5 @@ public class Food
     [Display(Name = "Categoria")]
     public MenuTypeEnum FoodTypeId { get; set; }
 
-    public virtual List<FoodRestaurant> Restaurants { get; set; }
-
+    public virtual List<Food> Foods {get;set;}
 }
