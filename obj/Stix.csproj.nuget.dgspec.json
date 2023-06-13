@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\morka\\OneDrive\\Escritorio\\CarpetaSoloParaDesarrollo2\\Stix.csproj": {}
+    "C:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Stix.csproj": {}
   },
   "projects": {
-    "C:\\Users\\morka\\OneDrive\\Escritorio\\CarpetaSoloParaDesarrollo2\\Stix.csproj": {
+    "C:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Stix.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\morka\\OneDrive\\Escritorio\\CarpetaSoloParaDesarrollo2\\Stix.csproj",
+        "projectUniqueName": "C:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Stix.csproj",
         "projectName": "Stix",
-        "projectPath": "C:\\Users\\morka\\OneDrive\\Escritorio\\CarpetaSoloParaDesarrollo2\\Stix.csproj",
+        "projectPath": "C:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\Stix.csproj",
         "packagesPath": "C:\\Users\\morka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\morka\\OneDrive\\Escritorio\\CarpetaSoloParaDesarrollo2\\obj\\",
+        "outputPath": "C:\\Users\\morka\\OneDrive\\Escritorio\\ParcialHerrdeProg120623\\ParcialHerrDeProg\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
