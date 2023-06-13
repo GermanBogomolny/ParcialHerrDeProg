@@ -10,87 +10,87 @@ using Stix.Models;
 
 namespace Stix.Controllers
 {
-    public class ClientController : Controller
+    public class OrderController : Controller
     {
         private readonly FoodContext _context;
 
-        public ClientController(FoodContext context)
+        public OrderController(FoodContext context)
         {
             _context = context;
         }
 
-        // GET: Client
+        // GET: Order
         public async Task<IActionResult> Index()
         {
-              return _context.Clients != null ? 
-                          View(await _context.Clients.ToListAsync()) :
-                          Problem("Entity set 'FoodContext.Clients'  is null.");
+              return _context.Orders != null ? 
+                          View(await _context.Orders.ToListAsync()) :
+                          Problem("Entity set 'FoodContext.Orders'  is null.");
         }
 
-        // GET: Client/Details/5
+        // GET: Order/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Clients == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Clients
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(order);
         }
 
-        // GET: Client/Create
+        // GET: Order/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Client/Create
+        // POST: Order/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameClient,SurnameClient,PhoneClient,EmailClient")] Client client)
+        public async Task<IActionResult> Create([Bind("Id,NameFood,DescriptionFood,Price,FoodTypeId,Qantity")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(client);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            return View(order);
         }
 
-        // GET: Client/Edit/5
+        // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Clients == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(client);
+            return View(order);
         }
 
-        // POST: Client/Edit/5
+        // POST: Order/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NameClient,SurnameClient,PhoneClient,EmailClient")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NameFood,DescriptionFood,Price,FoodTypeId,Qantity")] Order order)
         {
-            if (id != client.Id)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace Stix.Controllers
             {
                 try
                 {
-                    _context.Update(client);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(client.Id))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace Stix.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            return View(order);
         }
 
-        // GET: Client/Delete/5
+        // GET: Order/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Clients == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Clients
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(order);
         }
 
-        // POST: Client/Delete/5
+        // POST: Order/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Clients == null)
+            if (_context.Orders == null)
             {
-                return Problem("Entity set 'FoodContext.Clients'  is null.");
+                return Problem("Entity set 'FoodContext.Orders'  is null.");
             }
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
             {
-                _context.Clients.Remove(client);
+                _context.Orders.Remove(order);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(int id)
+        private bool OrderExists(int id)
         {
-          return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

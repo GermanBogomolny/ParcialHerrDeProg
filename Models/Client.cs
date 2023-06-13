@@ -18,8 +18,10 @@ public class Client
     public int PhoneClient { get; set; }
 
     [Required]
-    [Display(Name = "Categoria")]
+    [Display(Name = "Email")]
     public string EmailClient { get; set; }
 
     public virtual List<Order> Orders {get;set;}
+
+    public virtual List<Client> Clients {get;set;}
 }

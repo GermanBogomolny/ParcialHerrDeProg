@@ -8,7 +8,7 @@ namespace Stix.Services;
 
 public interface IClientService
 {
-    void Create(Client client, ClientViewModel viewModel);
+    void Create(Client client);
     List<Client> GetAll(string filter);
     void Update(Client obj);
     void Delete(int id);

@@ -17,7 +17,7 @@ public class ClientService : IClientService
     {
         _context = context;
     }
-    public void Create(Client client, ClientViewModel viewModel)
+    public void Create(Client client)
     {
         _context.Add(client);
         _context.SaveChangesAsync();
@@ -27,18 +27,14 @@ public class ClientService : IClientService
     public List<Client> GetAll(string filter)
     {
 
-/*        var query = from client in _context.Clients select client;
+        var query = from client in _context.Clients select client;
         if (!string.IsNullOrEmpty(filter))
         {
             query = query.Where(x => x.NameClient.ToLower().Contains(filter.ToLower()) ||
             x.SurnameClient.ToLower().Contains(filter.ToLower()) ||
-            x.EmailClient.ToLower().Contanins(filter.ToLower()) || x.PhoneClient.ToLower().Contains(filter.ToLower));
+            x.EmailClient.ToLower().Contains(filter.ToLower()));
         }
-
-
-        return query.ToList();*/
-
-        return null;
+        return query.ToList();
     }
     public void Update(Client obj)
     {
@@ -61,11 +57,10 @@ public class ClientService : IClientService
 
     public Client GetById(int? id)
     {
-/*        var client = _context.Foods.Find(id);
-
+        /*var client = _context.Foods.Find(id);
         return client;*/
-
         return null;
+
     }
 
     public bool ClientExists(int id)

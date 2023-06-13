@@ -14,6 +14,7 @@ builder.Services.AddDbContext<FoodContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FoodContext>();
