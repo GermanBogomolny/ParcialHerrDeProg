@@ -97,7 +97,7 @@ namespace Stix.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("Orders");
             if (ModelState.IsValid)
             {
                 try
