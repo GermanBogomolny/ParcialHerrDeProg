@@ -1,6 +1,7 @@
 using Stix.Models;
 using Stix.Utils;
-namespace Viewmodels;
+namespace Stix.ViewModels;
+
 
 public class RestaurantViewModel
 {

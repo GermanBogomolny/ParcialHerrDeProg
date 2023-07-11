@@ -1,12 +1,12 @@
-@model Stix.Models.Client
+@using Stix.ViewModels;
+@model Stix.ViewModels.ClientEditViewModel;
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar Cliente</h1>
 
-<h4>Client</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -32,16 +32,16 @@
                 <label asp-for="EmailClient" class="control-label"></label>
                 <input asp-for="EmailClient" class="form-control" />
                 <span asp-validation-for="EmailClient" class="text-danger"></span>
-            </div>
+            </div><br>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+                <input type="submit" value="Guardar" class="btn btn-primary text-warning bg-dark" />
+            </div><br>
         </form>
     </div>
 </div>
 
 <div>
-    <a class="btn btn-primary" asp-action="Index" role="button">Volver</a>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Index" role="button">Volver</a>
 </div>
 
 @section Scripts {

@@ -1,4 +1,5 @@
-@model Stix.Models.Food
+@using Stix.ViewModels;
+@model Stix.ViewModels.FoodEditViewModel
 
 @{
     ViewData["Title"] = "Editar";
@@ -36,14 +37,14 @@
                 </select>
             </div><br>
             <div class="form-group">
-                <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary text-warning bg-dark" />
             </div><br>
         </form>
     </div>
 </div>
 
 <div>
-        <a class="btn btn-primary" asp-action="Index" role="button">Volver</a>
+        <a class="btn btn-primary text-warning bg-dark" asp-action="Index" role="button">Volver</a>
 </div>
 
 @section Scripts {

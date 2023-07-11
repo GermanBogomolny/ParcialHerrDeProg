@@ -1,12 +1,12 @@
 @model Stix.Models.Restaurant
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar";
 }
 
-<h1>Delete</h1>
+<h1>Eliminar Restaurant</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Está seguro de eliminar el restautant?</h3>
 <div>
     <h4>Restaurant</h4>
     <hr />
@@ -55,6 +55,6 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
     </form><br>
     <div>
-        <a class="btn btn-primary" asp-action="Index" role="button">Volver</a>
+        <a class="btn btn-primary text-warning bg-dark" asp-action="Index" role="button">Volver</a>
     </div>
 </div>

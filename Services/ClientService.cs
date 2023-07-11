@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
 using Stix.ViewModels;
-using Viewmodels;
+
 
 namespace Stix.Services;
 
@@ -17,7 +17,7 @@ public class ClientService : IClientService
     {
         _context = context;
     }
-    public void Create(Client client)
+    public void Create(Client client, ClientEditViewModel viewModel)
     {
         _context.Add(client);
         _context.SaveChangesAsync();
@@ -26,13 +26,13 @@ public class ClientService : IClientService
 
     public List<Client> GetAll(string filter)
     {
-
         var query = from client in _context.Clients select client;
         if (!string.IsNullOrEmpty(filter))
         {
-            query = query.Where(x => x.NameClient.ToLower().Contains(filter.ToLower()) ||
+            query = query.Where(x => x.NameClient.ToLower().Contains(filter.ToLower())||
             x.SurnameClient.ToLower().Contains(filter.ToLower()) ||
-            x.EmailClient.ToLower().Contains(filter.ToLower()));
+            x.EmailClient.ToLower().Contains(filter.ToLower()) || 
+            x.PhoneClient.ToString().Contains(filter));
         }
         return query.ToList();
     }
@@ -57,14 +57,7 @@ public class ClientService : IClientService
 
     public Client GetById(int? id)
     {
-        /*var client = _context.Foods.Find(id);
-        return client;*/
-        return null;
-
-    }
-
-    public bool ClientExists(int id)
-    {
-        return (_context.Foods?.Any(e => e.Id == id)).GetValueOrDefault();
+        var client = _context.Clients.Find(id);
+        return client;
     }
 }

@@ -1,19 +1,18 @@
-@using Viewmodels;
-@model FoodViewModel;
+@using Stix.ViewModels;
+@model Stix.ViewModels.FoodViewModel;
 
 @{
     ViewData["Title"] = "Index";
 }
 <h1>Lista de platos</h1><br>
 <div>
-    <a class="btn btn-primary" asp-action="Create" role="button">Cargar un plato nuevo</a>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Create" role="button">Cargar un plato nuevo</a>
 </div><br>
 <div class="row">
     <form method="get" asp-action="Index" asp-controller="Food">
         <div class="col-6 form-group">
-            <input class="form control" asp-for="NameFilter" />
+            <input class="form control" asp-for="NameFilter" id="inputNameFilter" placeholder="Busque un plato"/>
         </div>
-        <button class="btn btn-outline-dark btn-sm" type="submit">Clic aquí para buscar plato </button>
     </form>
 </div>
 <table class="table">
@@ -51,11 +50,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.FoodTypeId)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalle</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                    <a asp-action="UpdatePrice" asp-route-id="@item.Id">Actualizar precio</a>
+                <td class="btn-group btn-group-sm" role="group">
+                    <a type="button" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Editar</a>
+                    <a type="button" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Detalle</a>
+                    <a type="button" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Eliminar</a>
+                    <a type="button" asp-action="UpdatePrice" asp-route-id="@item.Id"class="btn btn-primary btn-warning">Modif..precio</a>
                 </td>
             </tr>
         }

@@ -7,82 +7,158 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
+using Stix.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Stix.Services;
 
 namespace Stix.Controllers
 {
     [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
     public class OrderController : Controller
     {
-        private readonly FoodContext _context;
+        private readonly IOrderService _orderService;
 
-        public OrderController(FoodContext context)
+        public OrderController(IOrderService orderservice)
         {
-            _context = context;
+            _orderService = orderservice;
         }
 
         // GET: Order
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string NameFilter)
         {
-              return _context.Orders != null ? 
-                          View(await _context.Orders.ToListAsync()) :
-                          Problem("Entity set 'FoodContext.Orders'  is null.");
+            var model = new OrdersViewModel();
+            model.Orders = _orderService.GetAll(NameFilter);
+
+            return View(model);
         }
 
         // GET: Order/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Orders == null)
+            if (id == null)
             {
                 return NotFound();
             }
+            var order = _orderService.GetById(id.Value);
 
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (order == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            var viewModel = new OrderDetailsViewModel
+            {
+                Order = order,
+                DescriptionFood = order.DescriptionFood,
+                Price = order.Price,
+                FoodTypeId = order.FoodTypeId,
+                Qantity = order.Qantity,
+                ClientId = order.ClientId,
+            };
+
+
+            return View(viewModel);
         }
 
         // GET: Order/Create
         public IActionResult Create()
         {
-            return View();
-        }
+             var viewModel = new OrderCreateViewModel
+          {
+             MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                            .Cast<MenuTypeEnum>()
+                            .Select(e => new SelectListItem
+                            {
+                                Text = e.ToString(),
+                                Value = ((int)e).ToString()
+                            }).ToList(),
+        AvailableFoods = _orderService.GetAvailableFoods(),
+        AvailableClients = _orderService.GetAvailableClients()
+    };
 
+    return View(viewModel);
+        }
         // POST: Order/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameFood,DescriptionFood,Price,FoodTypeId,Qantity")] Order order)
+        public async Task<IActionResult> Create(OrderCreateViewModel viewModel)
         {
+            var model = new OrderCreateViewModel
+            {
+                MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                                  .Cast<MenuTypeEnum>()
+                                  .Select(e => new SelectListItem
+                                  {
+                                      Text = e.ToString(),
+                                      Value = ((int)e).ToString()
+                                  }).ToList(),
+                AvailableFoods = new List<SelectListItem>(),
+                AvailableClients = new List<SelectListItem>()
+            };
+            viewModel.AvailableFoods = _orderService.GetAvailableFoods();
+            viewModel.AvailableClients = _orderService.GetAvailableClients();
+            
+
+            ModelState.Remove("Client");
+            ModelState.Remove("Foods");
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
+                var order = new Order
+                {
+                    NameFood = viewModel.NameFood,
+                    DescriptionFood = viewModel.DescriptionFood,
+                    Price = viewModel.Price,
+                    FoodTypeId = viewModel.FoodTypeId,
+                    Qantity = viewModel.Qantity,
+                    ClientId = viewModel.ClientId,
+                };
+                _orderService.Create(order, viewModel);
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+
+            viewModel.MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                .Cast<MenuTypeEnum>()
+                .Select(m => new SelectListItem { Value = ((int)m).ToString(), Text = m.ToString() })
+                .ToList();
+            viewModel.AvailableClients = _orderService.GetAvailableClients();
+            //viewModel = _orderService.Listar(viewModel);
+
+            return View(viewModel);
         }
 
         // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
+            var order = _orderService.GetById(id.Value);
 
-            var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
-            return View(order);
+
+            var viewModel = new OrderEditViewModel
+            {
+                NameFood = order.NameFood,
+                DescriptionFood = order.DescriptionFood,
+                Price = order.Price,
+                FoodTypeId = order.FoodTypeId,
+                Qantity = order.Qantity,
+                ClientId = order.ClientId,
+                MenuTypes = Enum.GetValues(typeof(MenuTypeEnum))
+                               .Cast<MenuTypeEnum>()
+                               .Select(e => new SelectListItem
+                               {
+                                   Text = e.ToString(),
+                                   Value = ((int)e).ToString()
+                               }).ToList(),
+                AvailableFoods = new List<SelectListItem>(),
+                AvailableClients = new List<SelectListItem>()
+            };
+
+            return View(viewModel);
         }
 
         // POST: Order/Edit/5
@@ -90,46 +166,43 @@ namespace Stix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NameFood,DescriptionFood,Price,FoodTypeId,Qantity")] Order order)
+        public async Task<IActionResult> Edit(int id, OrderEditViewModel viewModel)
         {
-            if (id != order.Id)
-            {
-                return NotFound();
-            }
 
+            ModelState.Remove("Client");
+            ModelState.Remove("MenuTypes");
+            ModelState.Remove("Foods");
             if (ModelState.IsValid)
             {
-                try
+                var order = _orderService.GetById(id);
+                if (order == null)
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                order.NameFood = viewModel.NameFood;
+                order.DescriptionFood = viewModel.DescriptionFood;
+                order.Price = viewModel.Price;
+                order.FoodTypeId = viewModel.FoodTypeId;
+                order.Qantity = viewModel.Qantity;
+                order.ClientId = viewModel.ClientId;
+
+                _orderService.Update(order);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+
+            return View(viewModel);
         }
 
         // GET: Order/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Orders == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var order = _orderService.GetById(id);
             if (order == null)
             {
                 return NotFound();
@@ -143,23 +216,9 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Orders == null)
-            {
-                return Problem("Entity set 'FoodContext.Orders'  is null.");
-            }
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.Orders.Remove(order);
-            }
-            
-            await _context.SaveChangesAsync();
+            _orderService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
-        {
-          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }

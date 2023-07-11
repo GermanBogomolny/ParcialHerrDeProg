@@ -1,9 +1,20 @@
 @using Microsoft.AspNetCore.Identity
 @model List<IdentityRole>
 
-<ul>
-@foreach (var item in Model)
-{
- <li>@item.Name</li>   
-}
-</ul>
+<h1>Lista de roles</h1><br>
+<div>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Create" role="button">Cargar un rol</a>
+</div><br>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    @item.Name 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

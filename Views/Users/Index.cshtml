@@ -2,9 +2,20 @@
 @model List<IdentityUser>
 
 <h1>Usuarios</h1>
-<ul>
-@foreach (var item in Model)
-{
-    @item.UserName <a asp-action="Edit" asp-route-id="@item.Id">Asignar Rol</a>   
-}
-</ul>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    @item.UserName 
+                </td>
+                <td class="btn-group btn-group-lg" role="group">
+                    <a type="button" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Asignar</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

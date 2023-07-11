@@ -236,7 +236,7 @@ namespace Stix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.Food", b =>
@@ -272,7 +272,7 @@ namespace Stix.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.FoodRestaurant", b =>
@@ -287,7 +287,7 @@ namespace Stix.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("FoodRestaurants");
+                    b.ToTable("FoodRestaurants", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.Order", b =>
@@ -320,7 +320,7 @@ namespace Stix.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Stix.Models.Restaurant", b =>
@@ -357,7 +357,7 @@ namespace Stix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -9,7 +9,6 @@ using Stix.Data;
 using Stix.Models;
 using Stix.Utils;
 using Stix.ViewModels;
-using Viewmodels;
 using Stix.Services;
 using Microsoft.AspNetCore.Authorization;
 
@@ -50,7 +49,6 @@ namespace Stix.Controllers
                                   }).ToList(),
                 AvailableFoods = new List<SelectListItem>()
             };
-
 
             if (ModelState.IsValid)
             {
@@ -98,7 +96,6 @@ namespace Stix.Controllers
 
             var viewModel = new RestaurantEditViewModel
             {
-                Restaurant = restaurant,
                 RestaurantName = restaurant.RestaurantName,
                 Street = restaurant.Street,
                 Number = restaurant.Number,
@@ -124,27 +121,15 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, RestaurantEditViewModel viewModel)
         {
-            if (id != viewModel.Restaurant.Id)
-            {
-                return NotFound();
-            }
-            ModelState.Remove("restaurant.RestaurantName");
-            ModelState.Remove("restaurant.Street");
-            ModelState.Remove("restaurant.Number");
-            ModelState.Remove("restaurant.Neighbourhood");
-            ModelState.Remove("restaurant.Street");
-            ModelState.Remove("restaurant.Town");
-            ModelState.Remove("restaurant.Provincia");
+
             ModelState.Remove("availableFoods");
             ModelState.Remove("MenuTypes");
             ModelState.Remove("Foods");
-            ModelState.Remove("restaurant.Foods");
             if (ModelState.IsValid)
             {
                 try
                 {
                     var restaurant = _restaurantService.GetById(id);
-
                     if (restaurant == null)
                     {
                         return NotFound();
@@ -171,15 +156,15 @@ namespace Stix.Controllers
                     }
                     _restaurantService.Update(restaurant);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!RestaurantExists(viewModel.Restaurant.Id))
+                    if (!RestaurantExists(id))
                     {
                         return NotFound();
                     }
                     else
                     {
-                        throw;
+                        throw; //lanzar alerta con la excepción;
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -243,18 +228,6 @@ namespace Stix.Controllers
                 return NotFound();
             }
 
-            //TODO verificar que esto no pinche cuando se elimina el restaurant, en el ejercicio se usa:
-            //                  _restaurantService;
-            // Eliminar las relaciones de FoodRestaurant del restaurante que estamos eliminando
-            /////var foodRestaurants = _context.FoodRestaurants.Where(fr => fr.RestaurantId == id);
-            /////_context.FoodRestaurants.RemoveRange(foodRestaurants);
-
-            //TODO eliminar este código cuando se haga la inyección de dependencia    
-            //                  _restaurantService;
-            // Eliminar el restaurante
-            /////_context.Restaurants.Remove(restaurant);
-            /////await _context.SaveChangesAsync();
-            //TODO _restaurantService.Delete(restaurant);
             return RedirectToAction(nameof(Index));
         }
         private bool RestaurantExists(int id)

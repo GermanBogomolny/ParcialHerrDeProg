@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Stix.Models;
 using Microsoft.AspNetCore.Identity;
-using Viewmodels;
+using Stix.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Stix.Controllers;

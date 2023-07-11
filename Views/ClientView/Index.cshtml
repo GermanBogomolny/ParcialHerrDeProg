@@ -1,4 +1,4 @@
-@using Viewmodels;
+@using Stix.ViewModels;
 @model FoodViewModel;
 
 @{
@@ -6,11 +6,10 @@
 }
 <h1>Lista de platos</h1><br>
 <div class="row">
-    <form method="get" asp-action="Index" asp-controller="Food">
+    <form method="get" asp-action="Index" asp-controller="ClientView">
         <div class="col-6 form-group">
-            <input class="form control" asp-for="NameFilter" />
+            <input id="buscador" class="form control" asp-for="NameFilter" placeholder="Busque un plato"/>
         </div>
-        <button class="btn" type="submit">Buscar platos</button>
     </form>
 </div>
 <table class="table">
@@ -36,16 +35,16 @@
 
         {
             <tr>
-                <td>
+                <td class="platoListado">
                     @Html.DisplayFor(modelItem => item.NameFood)
                 </td>
-                <td>
+                <td class="platoListado">
                     @Html.DisplayFor(modelItem => item.DescriptionFood)
                 </td>
-                <td>
+                <td class="platoListado">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="platoListado">
                     @Html.DisplayFor(modelItem => item.FoodTypeId)
                 </td>
             </tr>

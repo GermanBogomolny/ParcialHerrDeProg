@@ -1,4 +1,5 @@
-namespace Viewmodels;
+namespace Stix.ViewModels;
+
 
 public class RolesCreateViewmodel
 {

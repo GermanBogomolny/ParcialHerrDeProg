@@ -1,62 +1,68 @@
-@model IEnumerable<Stix.Models.Order>
+@using Stix.ViewModels
+@model Stix.ViewModels.OrdersViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pedidos";
 }
 
-<h1>Index</h1>
+<h1>Carga de pedidos</h1>
 
 <p>
 <div>
-    <a class="btn btn-primary" asp-action="Create" role="button">Cargar nuevo pedido</a>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Create" role="button">Cargar nuevo pedido</a>
 </div><br>
-
+<div class="row">
+    <form method="get" asp-action="Index" asp-controller="Order">
+        <div class="col-6 form-group">
+            <input class="form control" asp-for="NameFilter" placeholder="Busque una orden"/>
+        </div>
+    </form>
+</div>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NameFood)
+                @Html.DisplayNameFor(model => model.Orders[0].NameFood)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptionFood)
+                @Html.DisplayNameFor(model => model.Orders[0].DescriptionFood)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Orders[0].Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FoodTypeId)
+                @Html.DisplayNameFor(model => model.Orders[0].Qantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Qantity)
+                @Html.DisplayNameFor(model => model.Orders[0].ClientId)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Orders)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameFood)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescriptionFood)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FoodTypeId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Qantity)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameFood)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionFood)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientId)
+            </td>
+            <td class="btn-group btn-group-lg" role="group">
+                <a type="button" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Editar</a>
+                <a type="button" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Detalle</a>
+                <a type="button" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Eliminar</a>
+            </td>
             </tr>
         }
     </tbody>

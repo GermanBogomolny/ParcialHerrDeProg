@@ -1,7 +1,11 @@
-namespace Stix.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Stix.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-public class Order
+namespace Stix.ViewModels;
+
+public class OrderDetailsViewModel
 {
     public int Id { get; set; }
 
@@ -25,8 +29,8 @@ public class Order
     public int Qantity { get; set; }
 
     [Required]
-    [Display(Name = "N° cliente")]
-    public int ClientId {get; set;}
-    public Client Client { get; set; }
-    public virtual List<Food> Foods { get; set; }
+    [Display(Name = "Cliente")]
+    public int ClientId { get; set; }
+    public Order Order { get; set; }
+
 }

@@ -7,15 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
-using Viewmodels;
-using Stix.Services;
-using Microsoft.AspNetCore.Authorization;
 using Stix.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Stix.Services;
 
 namespace Stix.Controllers
 
 {
-    [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
+[Authorize(Roles = "AdminUsuarios, RestaurantManager")]
 
     public class FoodController : Controller
     {
@@ -80,14 +79,39 @@ namespace Stix.Controllers
         }
 
         // GET: Food/Edit/5
-        public async Task<IActionResult> Edit(string NameFilter)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var model = new FoodViewModel();
-            model.Foods = _foodService.GetAll(NameFilter);
-
+            var food = _foodService.GetById(id.Value);
+            if (food == null)
+            {
+                return NotFound();
+            }
+            var model = new FoodEditViewModel
+            {
+                NameFood = food.NameFood,
+                DescriptionFood = food.DescriptionFood,
+                Price = food.Price,
+                FoodTypeId = food.FoodTypeId
+            };
             return View(model);
         }
 
+        // POST: Food/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NameFood,DescriptionFood,IsVeganFood,IsVegetarianFood,Price,FoodTypeId")] Food food)
+        {
+            if (id != food.Id)
+            {
+                return NotFound();
+            }
+
+            _foodService.Update(food);
+
+            return RedirectToAction(nameof(Index));
+        }
         // GET: UpdatePrice/Edit
 
         public IActionResult UpdatePrice(int? id)
@@ -114,40 +138,10 @@ namespace Stix.Controllers
             }
             if (model.Percent > 0)
             {
-            food.Price = (model.Percent * food.Price / 100) + food.Price;
-            _foodService.Update(food);
-            }
-            return RedirectToAction("Index");
-        }
-
-        // POST: Food/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NameFood,DescriptionFood,IsVeganFood,IsVegetarianFood,Price,FoodTypeId")] Food food)
-        {
-            if (id != food.Id)
-            {
-                return NotFound();
-            }
-
-            try
-            {
+                food.Price = (model.Percent * food.Price / 100) + food.Price;
                 _foodService.Update(food);
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FoodExists(food.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         // GET: Food/Delete/5

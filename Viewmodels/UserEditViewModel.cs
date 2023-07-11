@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Viewmodels;
+namespace Stix.ViewModels;
+
 
 public class UserEditViewModel
 {

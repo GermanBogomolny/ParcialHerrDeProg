@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Stix.Models;
 using Stix.Utils;
 
-namespace Stix.Models;
+namespace Stix.ViewModels;
+
 
 public class FoodEditViewModel
 {
@@ -22,5 +26,5 @@ public class FoodEditViewModel
     [Display(Name = "Categoria")]
     public MenuTypeEnum FoodTypeId { get; set; }
 
-    public virtual List<Food> Foods {get;set;}
+    public List<Food> Foods {get;set;}
 }

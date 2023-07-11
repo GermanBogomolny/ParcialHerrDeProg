@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
 using Stix.ViewModels;
-using Viewmodels;
 
 namespace Stix.Services;
 
@@ -38,7 +37,6 @@ public class FoodService : IFoodService
 
     public List<Food> GetAll(string filter)
     {
-
         var query = from food in _context.Foods select food;
         if (!string.IsNullOrEmpty(filter))
         {
@@ -59,11 +57,6 @@ public class FoodService : IFoodService
     }
 
     public void Update(Food obj)
-    {
-        _context.Update(obj);
-        _context.SaveChangesAsync();
-    }
-    public void Update(FoodEditViewModel obj)
     {
         _context.Update(obj);
         _context.SaveChangesAsync();

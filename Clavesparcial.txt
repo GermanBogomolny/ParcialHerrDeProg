@@ -2,3 +2,4 @@ clave user bogomolny.german@gmail.com ParcialIstea_2   ---  AdminUsuarios
 clave user german.bogomolny@istea.com.ar ParcialIstea_2_2   ---  RestaurantManager
 clave user clienteTest@test.com ParcialIstea_2_3   ---  Cliente
 clave user clienteTest2@test.com ParcialIstea_2_4   ---  Cliente
+clave user clienteTest33@test.com ParcialIstea_2_4 --- Usuario para pruebas

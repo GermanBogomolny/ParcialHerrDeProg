@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Stix.Models;
 using Stix.Utils;
-
-namespace Stix.Models;
-
+namespace Stix.ViewModels;
 public class FoodCreateViewModel
 {
     public int Id { get; set; }

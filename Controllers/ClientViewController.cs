@@ -7,16 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
-using Viewmodels;
+using Stix.ViewModels;
 using Stix.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Stix.Controllers
 {
-    [Authorize(Roles = "AdminUsuarios, RestaurantManager, Cliente")]
     public class ClientViewController : Controller
     {
-
         private readonly IFoodService _foodService;
 
         public ClientViewController(IFoodService foodservice)
@@ -27,7 +25,6 @@ namespace Stix.Controllers
         // GET: Food
         public async Task<IActionResult> Index(string NameFilter)
         {
-
             var model = new FoodViewModel();
             model.Foods = _foodService.GetAll(NameFilter);
 

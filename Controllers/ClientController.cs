@@ -7,38 +7,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
+using Stix.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Stix.Services;
 
 namespace Stix.Controllers
 {
     [Authorize(Roles = "AdminUsuarios, RestaurantManager")]
     public class ClientController : Controller
     {
-        private readonly FoodContext _context;
+        private readonly IClientService _clientService;
 
-        public ClientController(FoodContext context)
+        public ClientController(IClientService clientservice)
         {
-            _context = context;
+            _clientService = clientservice;
         }
 
         // GET: Client
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string NameFilter)
         {
-              return _context.Clients != null ? 
-                          View(await _context.Clients.ToListAsync()) :
-                          Problem("Entity set 'FoodContext.Clients'  is null.");
+            var model = new ClientViewModel();
+            model.Clients = _clientService.GetAll(NameFilter);
+
+            return View(model);
         }
 
         // GET: Client/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Clients == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = _clientService.GetById(id);
             if (client == null)
             {
                 return NotFound();
@@ -58,13 +60,12 @@ namespace Stix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameClient,SurnameClient,PhoneClient,EmailClient")] Client client)
+        public async Task<IActionResult> Create(Client client, ClientEditViewModel viewModel)
         {
             ModelState.Remove("Orders");
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
+                _clientService.Create(client, viewModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(client);
@@ -73,17 +74,19 @@ namespace Stix.Controllers
         // GET: Client/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Clients == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Clients.FindAsync(id);
+            var client = _clientService.GetById(id.Value);
             if (client == null)
             {
                 return NotFound();
             }
-            return View(client);
+            var model = new ClientEditViewModel
+            {
+                NameClient = client.NameClient,
+                SurnameClient = client.SurnameClient,
+                PhoneClient = client.PhoneClient,
+                EmailClient = client.EmailClient
+            };
+            return View(model);
         }
 
         // POST: Client/Edit/5
@@ -97,45 +100,25 @@ namespace Stix.Controllers
             {
                 return NotFound();
             }
-            ModelState.Remove("Orders");
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(client);
+
+            _clientService.Update(client);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Client/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Clients == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = _clientService.GetById(id);
             if (client == null)
             {
                 return NotFound();
             }
-
             return View(client);
         }
 
@@ -144,23 +127,8 @@ namespace Stix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Clients == null)
-            {
-                return Problem("Entity set 'FoodContext.Clients'  is null.");
-            }
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-            }
-            
-            await _context.SaveChangesAsync();
+            _clientService.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClientExists(int id)
-        {
-          return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -1,3 +1,4 @@
+@using Stix.ViewModels;
 @model Stix.ViewModels.UpdatePriceViewModel
 
 @{
@@ -16,16 +17,16 @@
     <div class="col-md-4">
         <form asp-action="UpdatePrice" method="post">
             <div class="form-group">
-                <label asp-for="Percent" class="control-label"></label>
+                <label asp-for="Percent" class="control-label">Porcentaje:</label>
                 <input asp-for="Percent" class="form-control" />
                 <span asp-validation-for="Percent" class="text-danger"></span>
             </div><br>
              <div class="form-group">
-                <input type="submit" value="Actualizar Precio" class="btn btn-primary" />
+                <input type="submit" value="Actualizar Precio" class="btn btn-primary text-warning bg-dark" />
             </div><br>
         </form>
     </div>
     <div>
-        <a class="btn btn-primary" asp-action="Index" role="button">Volver</a>
+        <a class="btn btn-primary text-warning bg-dark" asp-action="Index" role="button">Volver</a>
     </div>
 </div>

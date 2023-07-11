@@ -1,22 +1,40 @@
-@model Stix.Models.Order
+@using Stix.ViewModels
+@model Stix.ViewModels.OrderCreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Create</h1>
+<h1>Crear orden</h1>
 
-<h4>Order</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+          <div class="form-group">
+    <label asp-for="ClientId" class="control-label"></label>
+    <select asp-for="ClientId" asp-items="Model.AvailableClients" class="form-control">
+        <option value="">Seleccione un Cliente</option>
+    </select>
+    <span asp-validation-for="ClientId" class="text-danger"></span>
+</div>
             <div class="form-group">
-                <label asp-for="NameFood" class="control-label"></label>
-                <input asp-for="NameFood" class="form-control" />
+                <label asp-for="FoodTypeId" class="control-label"></label>
+                <select asp-for="FoodTypeId" class="form-control">
+                    <option Type>Seleccione la categoría</option>
+                    <option value="0">Sushi</option>
+                    <option value="1">Vegano</option>
+                    <option value="2">Vegetariano</option>
+                </select>
+            </div><br>
+            <div class="form-group">
+                <label asp-for="NameFood" class="control-label">Platos de Comida</label>
+                <input asp-for="NameFood" class="form-control">
+                </select>
                 <span asp-validation-for="NameFood" class="text-danger"></span>
-            </div>
+            </div><br>
             <div class="form-group">
                 <label asp-for="DescriptionFood" class="control-label"></label>
                 <input asp-for="DescriptionFood" class="form-control" />
@@ -28,26 +46,43 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FoodTypeId" class="control-label"></label>
-                <select asp-for="FoodTypeId" class="form-control"></select>
-                <span asp-validation-for="FoodTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Qantity" class="control-label"></label>
                 <input asp-for="Qantity" class="form-control" />
                 <span asp-validation-for="Qantity" class="text-danger"></span>
-            </div>
+            </div><br>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary text-warning bg-dark" />
             </div>
         </form>
     </div>
-</div>
+</div><br>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Index" role="button">Volver</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     <script>
+        $(function() {
+            $('#MenuTypeId').on('change', function() {
+                var menuTypeId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetAvailableFoods", "Order")',
+                    type: 'GET',
+                    data: { menuTypeId: menuTypeId },
+                    success: function(data) {
+                        var options = '';
+                        $.each(data, function(i, item) {
+                            options += '<option value="' + item.value + '">' + item.text + '</option>';
+                        });
+                        $('#NameFood').html(options);
+                    },
+                    error: function() {
+                        alert('Error al cargar los platos de comida.');
+                    }
+                });
+            });
+        });
+    </script>
 }

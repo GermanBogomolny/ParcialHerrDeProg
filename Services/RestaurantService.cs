@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Stix.Data;
 using Stix.Models;
 using Stix.ViewModels;
-using Viewmodels;
 
 namespace Stix.Services;
 

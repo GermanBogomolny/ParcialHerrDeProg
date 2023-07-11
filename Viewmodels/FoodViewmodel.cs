@@ -1,5 +1,11 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Stix.Models;
-namespace Viewmodels;
+using Stix.Utils;
+
+namespace Stix.ViewModels;
+
 
 public class FoodViewModel
 {

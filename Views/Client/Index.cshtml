@@ -1,62 +1,68 @@
-@model IEnumerable<Stix.Models.Client>
+@using Stix.ViewModels
+@model Stix.ViewModels.ClientViewModel
+
 
 @{
     ViewData["Title"] = "Clientes";
 }
-
-<h1>Index</h1>
-
-<p>
+<h1>Clientes</h1><br>
 <div>
-    <a class="btn btn-primary" asp-action="Create" role="button">Cargar nuevo cliente</a>
+    <a class="btn btn-primary text-warning bg-dark" asp-action="Create" role="button">Cargar cliente nuevo</a>
 </div><br>
-
-</p>
+<div class="row">
+    <form method="get" asp-action="Index" asp-controller="Client">
+        <div class="col-6 form-group">
+            <input class="form control" asp-for="NameFilter" placeholder="Busque un cliente"/>
+        </div>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Clients[0].Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NameClient)
+                @Html.DisplayNameFor(model => model.Clients[0].NameClient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SurnameClient)
+                @Html.DisplayNameFor(model => model.Clients[0].SurnameClient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneClient)
+                @Html.DisplayNameFor(model => model.Clients[0].EmailClient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmailClient)
+                @Html.DisplayNameFor(model => model.Clients[0].PhoneClient)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NameClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SurnameClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailClient)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Clients)
+
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SurnameClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneClient)
+                </td>
+                <td class="btn-group btn-group-sm" role="group">
+                    <a type="button" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Editar</a>
+                    <a type="button" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Detalle</a>
+                    <a type="button" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary btn-warning">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
